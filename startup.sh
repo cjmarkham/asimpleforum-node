@@ -1,0 +1,1 @@
+forever -w -a -c node app.js

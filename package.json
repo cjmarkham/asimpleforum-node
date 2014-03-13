@@ -1,0 +1,25 @@
+{
+    "name": "ASimpleForum",
+    "private": false,
+    "version": "0.0.0",
+    "description": "",
+    "dependencies": {
+        "sails": "0.10.x",
+        "grunt": "0.4.1",
+        "sails-disk": "0.10.x",
+        "ejs": "0.8.4",
+        "optimist": "0.3.4",
+        "sails-mysql": "0.10.x",
+        "bcrypt-nodejs": "0.0.3",
+        "moment": "2.5.1",
+        "swig": "1.3.2"
+    },
+    "scripts": {
+        "start": "node app.js",
+        "debug": "node debug app.js"
+    },
+    "main": "app.js",
+    "repository": "",
+    "author": "",
+    "license": ""
+}
