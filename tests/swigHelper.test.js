@@ -32,10 +32,19 @@ describe('Filters:', function () {
 
 	describe('round', function () {
 
-		it('should return a rounded string integer', function () {
+		it('should round down', function () {
 
 			expect(
-				swig.render('{{1.6|round}}')
+				swig.render('{{1.2|round}}')
+			)
+			.to.equal('1');
+
+		});
+
+		it('should round up', function () {
+
+			expect(
+				swig.render('{{1.5|round}}')
 			)
 			.to.equal('2');
 
