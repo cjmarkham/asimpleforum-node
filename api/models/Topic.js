@@ -14,7 +14,9 @@ module.exports = {
 	attributes: {
 
 		name: 'string',
-		author: 'integer',
+		author: {
+			model: 'User'
+		},
 		views: {
 			type: 'integer',
 			defaultsTo: 0
@@ -35,6 +37,14 @@ module.exports = {
 
 		forum: {
 			model: 'Forum'
+		},
+
+		lastPost: {
+			model: 'Post'
+		},
+
+		lastAuthor: {
+			model: 'User'
 		}
 
 	}

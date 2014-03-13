@@ -21,7 +21,7 @@
 
 									<div class="col-sm-8">
 										<h4>
-											<a class="forum-name" href="/{{ child.name }}-{{ child.id }}/">
+											<a class="forum-name" href="/{{ child.name|toUrl }}-{{ child.id }}/">
 												{{ child.name }}
 											</a>
 										</h4>
@@ -33,7 +33,7 @@
 									<div class="col-sm-4 text-right">
 										<p>	
 											{% if child.lastTopic %}
-												<a href="/{{ child.name }}/{{ child.lastTopic.name }}-{{ child.lastTopic.id }}/#{{ child.lastPost.id }}" class="topic-name">
+												<a href="/{{ child.name|toUrl }}/{{ child.lastTopic.name|toUrl }}-{{ child.lastTopic.id }}/#{{ child.lastPost.id }}" class="topic-name">
 													{{ child.lastTopic.name }}
 												</a>
 											{% else %}
@@ -65,7 +65,7 @@
 										<div class="col-sm-12 subforum-list">
 											Subforums: 
 											{% for subchild in child.forums %}
-												<a href="/{{ subchild.name }}-{{ subchild.id }}">
+												<a href="/{{ subchild.name|toUrl }}-{{ subchild.id }}">
 													{{ subchild.name }}
 												</a>
 											{% endfor %}

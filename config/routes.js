@@ -41,6 +41,11 @@ module.exports.routes = {
   '/login': {
     controller: 'UserController',
     action: 'login'
+  },
+
+  '/:forum': {
+    controller: 'ForumController',
+    action: 'index'
   }
 
   /*

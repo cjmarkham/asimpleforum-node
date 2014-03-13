@@ -26,7 +26,7 @@
 
 					<h1>
 						<a href="/">
-							<img width="318" height="52" src="/images/{{ sails.config.board.logo }}" alt="{{ sails.config.board.name }}" />
+							<img width="318" height="52" src="/linker/images/{{ sails.config.board.logo }}" alt="{{ sails.config.board.name }}" />
 						</a>
 					</h1>
 
@@ -52,8 +52,7 @@
 					{% for link in sails.config.navLinks %}
 						<li {% if section == link.section %}class="active"{% endif %}>
 							<h2>
-								
-									{% set url = '/' ~ link.link %}
+								{% set url = '/' + link.link %}
 								<a href="{{ url }}">
 									{{ link.title }}
 								</a>
@@ -72,9 +71,57 @@
 		</div>
 	</header>
 	
-	<div id="main" class="container">
-		{% block content %}{% endblock %}
+	<div class="container" id="main">
+		<nav id="breadcrumbs">
+			<ul class="list-unstyled list-inline">
+				<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+					<a href="/" itemprop="url">
+						<span itemprop="title">Home</span>
+					</a>
+				</li>
+				{% block crumbs %}{% endblock %}
+			</ul>
+		</nav>
+
+		<div class="row">
+
+			{% if sails.config.sidebars[section] %}
+				<div class="col-md-3 hidden-xs hidden-sm">
+					
+					{% for element in sails.config.sidebars[section] %}
+						{% set sidebarFile = 'sidebars/' + element + '.swig' %}
+						{% include sidebarFile %}
+					{% endfor %}
+
+				</div>
+			{% endif %}
+
+			{% if sails.config.sidebars[section] %}
+				<div class="col-md-9">
+			{% else %}
+				<div id="main-full">
+			{% endif %}
+
+				{% block content %}{% endblock %}
+
+			</div>
+
+		</div>
 	</div>
+
+	
+	<footer id="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4"></div>
+				<div class="text-right col-md-4">
+					<p><small>Powered by &copy; {{ 'now'|date('Y') }} asimpleforum</small></p>
+					<p><small>All content &copy; {{ config('board', 'name') }}</small></p>
+				</div>
+			</div>
+		</div>
+	</footer>
 
 	<!--SCRIPTS-->
 <script src="/linker/js/socket.io.js"></script>
