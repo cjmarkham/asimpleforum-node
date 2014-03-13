@@ -1,7 +1,7 @@
 # A Simple Forum
 
 
-### Testing
+### Running server
 
 - Clone or fork repository
 - Run `npm install`
