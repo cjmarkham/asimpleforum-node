@@ -1,5 +1,7 @@
 var ASF = {
 
+	user: null,
+
 	auth: {
 
 		register: function (node) {
@@ -9,8 +11,7 @@ var ASF = {
 			var confirm  = node.find('input[name="confirm"]').val().trim();
 			var email    = node.find('input[name="email"]').val().trim();
 
-
-			$.post('/auth/register', {
+			$.post('/user/create', {
 				username: username,
 				password: password,
 				confirm: confirm,
@@ -34,21 +35,40 @@ var ASF = {
 			var username = node.find('input[name="username"]').val().trim();
 			var password = node.find('input[name="password"]').val().trim();
 
-			$.post('/auth/login', {
+			socket.get('/session/create', {
 				username: username,
 				password: password
-			}).done(function (response) {
+			}, function (response) {
 
-				console.log(response);
+				if (!response.error) {
+					var params = {
+						req: {
+							session: {
+								user: response,
+								authenticated: true
+							}
+						}
+					};
 
-			}).fail(function (response) {
+					ASF.elements.replace('#userbox', 'sidebars/userbox', params);
+					ASF.elements.replace('#nav-quick-access', 'partials/user/navQuickAccess', params);
+				} else {
+					ASF.elements.removeLoader(node);
 
-				ASF.elements.removeLoader(node);
-
-				return ASF.errors.parse(response);
+					return ASF.errors.parse(response);
+				}
 
 			});
 
+		},
+
+		logout: function (node) {
+			socket.get('/session/destroy', function (response) {
+				
+				ASF.elements.replace('#userbox', 'sidebars/userbox');
+				ASF.elements.replace('#nav-quick-access', 'partials/user/navQuickAccess');
+			
+			});
 		}
 
 	},
@@ -78,6 +98,21 @@ var ASF = {
 			$(node).find('button.submit').removeAttr('disabled');
 
 			loader.remove();
+		},
+
+		replace: function (target, element, params) {
+
+			var loader = $('<em class="loader fa fa-spin fa-spinner" />');
+
+			$(target).html(loader);
+
+			$.post('/element', {
+				element: element,
+				params: params
+			}).done(function (html) {
+				$(target).html(html);
+			});
+
 		}
 
 	},

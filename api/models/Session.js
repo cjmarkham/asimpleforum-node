@@ -13,11 +13,12 @@ module.exports = {
 
 	attributes: {
 
+		user_agent: 'string',
 		ip: 'string',
-		userId: 'integer',
-		userAgent: 'string',
-		active: 'datetime'
+		
+		user_id: {
+			model: 'User'
+		}
 
 	}
-
 };

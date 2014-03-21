@@ -52,20 +52,15 @@
 					{% for link in sails.config.navLinks %}
 						<li {% if section == link.section %}class="active"{% endif %}>
 							<h2>
-								{% set url = '/' + link.link %}
-								<a href="{{ url }}">
+								<a href="{{ link.link }}">
 									{{ link.title }}
 								</a>
 							</h2>	
 						</li>
 					{% endfor %}
 				</ul>
-				<div id="user-quick-access" class="col-md-3 pull-right hidden-sm hidden-xs">
-					{% if user %}
-						{% include "partials/user/navQuickAccess.swig" %}
-					{% else %}
-						{% include "partials/user/quickLinks.swig" %}
-					{% endif %}
+				<div id="nav-quick-access" class="col-md-3 pull-right hidden-sm hidden-xs">
+					{% include "partials/user/navQuickAccess.swig" %}
 				</div>
 			</div>
 		</div>
@@ -104,6 +99,22 @@
 
 				{% block content %}{% endblock %}
 
+				<div id="sessions">
+					Currently online: 
+					<p class="inline" title="Users" data-toggle="tooltip"><em class="fa fa-group"></em > <span id="online-user-count"></span></p>
+					<p class="inline" title="Guests" data-toggle="tooltip"><em class="fa fa-user"></em > <span id="online-guest-count"></span></p>
+					
+					<section id="online-list">
+						<header>
+							Currently online users
+						</header>
+
+						<div class="content" id="users">
+							No users online
+						</div>
+					</section>
+				</div>
+
 			</div>
 
 		</div>
@@ -117,20 +128,65 @@
 				<div class="col-md-4"></div>
 				<div class="text-right col-md-4">
 					<p><small>Powered by &copy; {{ 'now'|date('Y') }} asimpleforum</small></p>
-					<p><small>All content &copy; {{ config('board', 'name') }}</small></p>
+					<p><small>All content &copy; {{ sails.config.board.name }}</small></p>
 				</div>
 			</div>
 		</div>
 	</footer>
+
+	{% block modals %}
+
+		{% if !req.session.authenticated %}
+			<div class="modal fade" id="login-modal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-body">
+							<form method="post" action="javascript:void(0)" data-event="submit" data-action="auth.login">
+								<div class="form-group">
+									<label>
+										Username
+									</label>
+									<input type="text" name="username" class="form-control" />
+								</div>
+								<div class="form-group">
+									<label>
+										Password
+									</label>
+									<input type="password" name="password" class="form-control" />
+								</div>
+								<button class="btn btn-orange">
+									Login
+								</button>
+								<a href="/register" class="btn btn-orange">
+									Signup
+								</a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+	{% endblock %}
 
 	<!--SCRIPTS-->
 <script src="/linker/js/socket.io.js"></script>
 <script src="/linker/js/sails.io.js"></script>
 <script src="/linker/js/app.js"></script>
 <script src="/linker/js/jquery.js"></script>
+<script src="/linker/js/bootstrap.js"></script>
 <script src="/linker/js/color.js"></script>
 <script src="/linker/js/asf.js"></script>
 <script src="/linker/js/dom.js"></script>
 <!--SCRIPTS END-->
+	
+	<script>
+
+		{% if req.session.authenticated %}
+			ASF.user = {{ JSON.stringify(req.session.User) }};
+		{% endif %}
+
+	</script>
+
 </body>
 </html>

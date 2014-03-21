@@ -1,6 +1,6 @@
 <section class="box">
 	<header>
-		Recent Topics
+		<h3>Recent Topics</h3>
 	</header>
 	<div class="content">
 		<ul class="list-unstyled">
@@ -35,7 +35,9 @@
 				{% endfor %}
 			{% else %}
 				<li class="recent-topic">
-					No Topics Yet
+					<p class="alert alert-warning">
+						No Topics Yet
+					</p>
 				</li>
 			{% endif %}
 		</ul>		

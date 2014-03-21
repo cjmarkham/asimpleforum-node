@@ -7,21 +7,20 @@
 
 module.exports = {
 
-	index: function (req, res) {
+	render: function (req, res) {
 
 		var swig = require('swig');
 		var path = require('path');
 
-		var directory = req.param('directory') || '';
 		var element = req.param('element');
 
-		var template = swig.compileFile(path.normalize('../views') + '/' + directory + '/' + element + '.swig', {
+		var params = req.param('params') || {};
+
+		var template = swig.compileFile(path.normalize('../views') + '/' + element + '.swig', {
 			resolveFrom: __dirname
 		});
 
-		res.send(template({
-			req: req
-		}));
+		res.send(template(params));
 		
 	}
 

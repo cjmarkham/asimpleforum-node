@@ -10,5 +10,17 @@
 
 module.exports.bootstrap = function (cb) {
 
+	// Set all users to offline when server restarted
+	/*User.update({}, {
+		active: false
+	}, function (error, updated) {
+		if (error) {
+			console.error(error);
+			return false;
+		}
+
+		cb();
+	});*/
+	
 	cb();
 };

@@ -1,10 +1,10 @@
-<section id="account-control" class="box">
+<section id="userbox" class="box">
 	<header>
-		Account Control
+		<h3>Account Control</h3>
 	</header>
 	<div class="content">
 		{% if !req.session.authenticated %}
-			<form data-event="submit" data-action="login" method="post" action="javascript:void(0)">
+			<form data-event="submit" data-action="auth.login" method="post" action="javascript:void(0)">
 				<div class="form-group">
 					<label>Username</label>
 					<input required type="text" class="form-control" name="username" placeholder="Username" />
@@ -18,6 +18,8 @@
 						</a>
 					</p>
 				</div>
+
+				<input type="hidden" name="_csrf" value="{{ _csrf }}" />
 
 				<div class="text-center">
 					<button class="btn btn-orange">
@@ -47,24 +49,24 @@
 						<div class="clearfix">
 							<div class="pull-left">
 								<a class="marginRight10" href="/user/{{ req.session.User.username }}">
-									<em class="fa fa-user"></em> Profile
+									<em class="fa fa-user"></em> <span class="hidden-xs hidden-sm">Profile</span>
 								</a>
 							</div>
 							<div class="pull-right">
 								<a href="/user/settings">
-									Messages <em class="fa fa-envelope-o"></em>
+									<span class="hidden-xs hidden-sm">Messages</span> <em class="fa fa-envelope-o"></em>
 								</a>
 							</div>
 						</div>
 						<div class="clearfix">
 							<div class="pull-left">
 								<a class="marginRight10" href="/user/notifications">
-									<em class="fa fa-exclamation-triangle"></em> Alerts
+									<em class="fa fa-exclamation-triangle"></em> <span class="hidden-xs hidden-sm">Alerts</span>
 								</a>
 							</div>
 							<div class="pull-right">
 								<a href="/user/settings">
-									Settings <em class="fa fa-cogs"></em>
+									<span class="hidden-xs hidden-sm">Settings</span> <em class="fa fa-cogs"></em>
 								</a>
 							</div>
 						</div>
@@ -72,7 +74,7 @@
 				</div>
 			</div>
 			<div class="seperator"></div>
-			<a class="btn btn-orange" href="javascript:void(0)" data-user="{{ req.session.User.username }}" data-event="click" data-action="logout">
+			<a class="btn btn-orange" href="javascript:void(0)" data-user="{{ req.session.User.username }}" data-event="click" data-action="auth.logout">
 				Logout
 			</a>
 		{% endif %}

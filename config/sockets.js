@@ -10,20 +10,34 @@
 
 module.exports.sockets = {
 
+	transports: [
+		'websocket',
+		'htmlfile',
+		'xhr-polling',
+		'jsonp-polling'
+	],
 
-  // `transports`
-  //
-  // A array of allowed transport methods which the clients will try to use.
-  // The flashsocket transport is disabled by default
-  // You can enable flashsockets by adding 'flashsocket' to this list:
-  transports: [
-  'websocket',
-  'htmlfile',
-  'xhr-polling',
-  'jsonp-polling'
- ],
+	onConnect: function (session, socket) {
 
+		
 
+	},
+
+	onDisconnect: function (session, socket) {
+	/*console.log('disconnect');
+
+		if (session.authenticated) {
+			Session.unsubscribe(socket, 'users');
+	  socket.emit('logout', session.User.username);
+
+			if (Session.subscribers(session.User.id).length == 0) {
+				
+			}
+		} else {
+	  Session.unsubscribe(socket, 'guests');
+	}*/
+
+	},
 
 
   // `adapter`
@@ -90,16 +104,16 @@ module.exports.sockets = {
   // use cases, Sails allows you to override the authorization behavior 
   // with your own custom logic by specifying a function, e.g:
   /*
-    authorization: function authorizeAttemptedSocketConnection(reqObj, cb) {
+	authorization: function authorizeAttemptedSocketConnection(reqObj, cb) {
 
-        // Any data saved in `handshake` is available in subsequent requests
-        // from this as `req.socket.handshake.*`
+		// Any data saved in `handshake` is available in subsequent requests
+		// from this as `req.socket.handshake.*`
 
-        //
-        // to allow the connection, call `cb(null, true)`
-        // to prevent the connection, call `cb(null, false)`
-        // to report an error, call `cb(err)`
-    }
+		//
+		// to allow the connection, call `cb(null, true)`
+		// to prevent the connection, call `cb(null, false)`
+		// to report an error, call `cb(err)`
+	}
   */
   authorization: true,
 

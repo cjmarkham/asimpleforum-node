@@ -48,6 +48,10 @@ module.exports = {
 			type: 'string',
 			defaultsTo: 'en'
 		},
+		active: {
+			type: 'boolean',
+			defaultsTo: false
+		},
 
 		toJSON: function() {
 			var obj = this.toObject();
