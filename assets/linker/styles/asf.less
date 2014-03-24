@@ -227,6 +227,16 @@ a {
 	}
 }
 
+.forum:not(:last-of-type) {
+	border-bottom: 1px solid #fff !important;
+	padding-bottom: 10px;
+}
+
+.forum:not(:first-of-type) {
+	padding-top: 10px;
+	border-top: 1px solid #dfdfdf !important;
+}
+
 .forum-icon {
 	text-align: center;
 	font-size: 46px;
@@ -496,8 +506,6 @@ date {
 	.post-author {
 		border-right: 1px solid #dfdfdf;
 		text-align: center;
-		display: table-cell;
-		width: 150px;
 
 		.avatar, p {
 			margin: 0 auto;
@@ -517,8 +525,6 @@ date {
 
 	.post-body {
 		padding-left: 10px;
-		width: 700px;
-		display: table-cell;
 		border-left: 1px solid #fff;
 		position: relative;
 
@@ -626,7 +632,6 @@ date {
 }
 
 .modal-dialog {
-	width: 800px;
 	.radius(0);
 	padding: 40px;
 	background: rgba(61, 120, 178, .6);
@@ -706,6 +711,7 @@ date {
 #sessions {
 	color: @lightBlue;
 	font-size: 12px;
+	margin-top: 10px;
 
 	section {
 		margin-top: 10px;
@@ -1215,8 +1221,7 @@ section h4 {
 }
 
 [contenteditable] {
-	background: #fff;
-	border: 1px solid @darkGrey;
+	min-width: 400px;
 }
 
 .help {

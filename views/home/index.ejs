@@ -1,0 +1,81 @@
+<section id="forums">
+
+	<% _.each(forums, function (forum) { %>
+
+		<div class="parent-forum">
+			<header>
+				<h3>
+					<%= forum.name %>
+				</h3>
+			</header>
+
+			<div class="content">
+				<% if (forum.forums) { %>
+					<div class="forums" aria-label="forums">
+						<% _.each(forum.forums, function (child, index) {  %>
+							<div class="forum" aria-label="forum">
+								<div class="row">
+								
+									<div class="col-sm-8">
+										<h4>
+											<a class="forum-name" href="/<%=: child.name|toUrl %>-<%= child.id %>/">
+												<%= child.name %>
+											</a>
+										</h4>
+										<p class="forum-description">
+											<%= child.description %>
+										</p>
+									</div>
+
+									<div class="col-sm-4 text-right">
+										<p>	
+											<% if (child.lastTopic) { %>
+												<a href="/<%=: child.name|toUrl %>/<%=: child.lastTopic.name|toUrl %>-<%= child.lastTopic.id %>/#<%= child.lastPost.id %>" class="topic-name">
+													<%= child.lastTopic.name %>
+												</a>
+											<% } else { %>
+												<a href="javascript:void(0)" class="topic-name">
+													No topics
+												</a>
+											<% } %>
+										</p>
+										<p>
+											<% if (child.lastTopic) { %>
+												<a href="/user/<%= child.lastAuthor.username %>" class="user-link">
+													<%= child.lastAuthor.username %>
+												</a>
+											<% } else { %>
+												<a href="javascript:void(0)" class="user-link">
+													Be the first
+												</a>
+											<% } %>
+										</p>
+										<% if (child.lastPost) { %>
+											<p data-default="" title="<%=: child.lastPost.createdAt|toDate %>" class="date">
+												<%=: child.lastPost.createdAt|toDate %>
+											</p>
+										<% } %>
+									</div>
+								</div>
+							</div>
+							<% if (child.forums) { %>
+								<div class="row">
+									<div class="col-sm-12 subforum-list">
+										Subforums: 
+										<% _.each(child.forums, function (subchild) { %>
+											<a href="/<%=: subchild.name|toUrl %>-<%= subchild.id %>">
+												<%= subchild.name %>
+											</a>
+										<% }) %>
+									</div>
+								</div>
+							<% } %>
+
+						<% }) %>
+					</div>
+				<% } %>
+			</div>
+		</div>
+ 	<% }) %>
+
+</section>

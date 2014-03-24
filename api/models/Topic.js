@@ -13,7 +13,10 @@ module.exports = {
 
 	attributes: {
 
-		name: 'string',
+		name: {
+			type: 'string',
+			required: true
+		},
 		author: {
 			model: 'User'
 		},

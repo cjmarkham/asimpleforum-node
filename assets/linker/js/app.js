@@ -9,6 +9,7 @@
 	socket.on('connect', function socketConnected() {
 
 		socket.on('user', userMessageReceived);
+		socket.on('topic', topicMessageReceived);
 
 		socket.get('/user/subscribe');
 
@@ -26,7 +27,6 @@
 })(window.io);
 
 function userMessageReceived (message) {
-	console.log(message);
 	
 	var username = message.data.username;
 
@@ -51,4 +51,21 @@ function userMessageReceived (message) {
 		}
 
 	}
+}
+
+function topicMessageReceived (message) {
+
+	console.log(message.data);
+	
+	if (message.verb === 'created') {
+
+		$.post('/element', {
+			element: 'partials/topic/single',
+			params: message.data
+		}).done(function (html) {
+			$('#topics .content').prepend(html);
+		});
+
+	}
+
 }

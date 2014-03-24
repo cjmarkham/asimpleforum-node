@@ -1,0 +1,54 @@
+<section id="posts">
+		
+	<header class="clearfix">
+		<div class="pull-left">
+			<h5><%= topic.name %></h5>
+		</div>
+		<div class="pull-right text-right">
+			<span data-toggle="tooltip" title="Views" class="marginRight10">
+				<em class="fa fa-eye"></em > <%= topic.views %>
+			</span>
+			<span data-toggle="tooltip" title="Replies">
+				<em class="fa fa-pencil"></em > <%= topic.replies %>
+			</span>
+		</div>
+	</header>
+
+	<div id="post-list">
+		<% _.each(posts, function (post) { %>
+			<% include ../partials/post/single.ejs %>
+		<% }) %>
+	</div>
+</section>
+
+<div class="post-buttons clearfix">
+	
+	<div class="pull-left">	
+		<% if (topic.locked) { %>
+			<button class="btn btn-danger">
+				Locked
+			</button>	
+		<% } else { %>
+			<button class="hidden-no-user btn btn-orange" data-event="click" data-action="post.newTrigger">
+				Add Reply
+			</button>
+			<button data-toggle="modal" data-target="#login-modal" class="btn btn-danger hidden-user">
+				Login to reply
+			</button>
+		<% } %>
+	</div>
+</div>
+
+<script>
+	$(function () {
+
+		$(document).on('scroll', function () {
+			
+			if ($(window).scrollTop() == $(this).height() - $(window).height()) {
+				ASF.topic.loadMorePosts(<%= topic.id %>, $('.post').length);
+			}
+
+		});
+
+	});
+</script>

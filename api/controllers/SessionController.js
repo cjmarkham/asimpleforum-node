@@ -15,7 +15,9 @@ module.exports = {
 		var password = req.param('password');
 
 		if (!username || !password) {
-			res.send(400);
+			return res.json({
+				error: 'Please fill in all fields'
+			}, 400);
 		}
 
 		User.findOneByUsername(username).done(function (error, user) {
@@ -46,7 +48,7 @@ module.exports = {
 						req.session.authenticated = false;
 					}
 
-					return req.json({
+					return res.json({
 						error: 'Invalid credentials'
 					}, 400);
 				}
@@ -58,7 +60,7 @@ module.exports = {
 				user.save(function (error, user) {
 
 					if (error) {
-						res.send(error, 500);
+						return res.send(error, 500);
 					}
 
 					User.publishUpdate(user.id, {
@@ -68,7 +70,7 @@ module.exports = {
 						action: ' has logged in'
 					});
 
-					res.json(user, 200);
+					return res.json(user, 200);
 				});
 
 			});
@@ -103,6 +105,18 @@ module.exports = {
 			req.session.User = null;
 
 			res.send(200);
+		});
+
+	},
+
+	list: function (req, res) {
+
+		User.findByActive(true).done(function (error, users) {
+			if (error) {
+				res.send(error, 500);
+			}
+
+			res.json(users, 200);
 		});
 
 	}

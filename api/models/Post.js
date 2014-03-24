@@ -13,8 +13,14 @@ module.exports = {
 
 	attributes: {
 		
-		name: 'string',
-		content: 'text',
+		name: {
+			type: 'string',
+			required: true
+		},
+		content: {
+			type: 'text',
+			required: true
+		},
 		
 		edited: {
 			type: 'integer',

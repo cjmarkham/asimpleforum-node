@@ -11,8 +11,7 @@
 module.exports.sockets = {
 
 	transports: [
-		'websocket',
-		'htmlfile',
+    'websocket',
 		'xhr-polling',
 		'jsonp-polling'
 	],

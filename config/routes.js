@@ -35,6 +35,31 @@ module.exports.routes = {
 		action: 'subscribe'
 	},
 
+	'get /session/create': {
+		controller: 'SessionController',
+		action: 'create'
+	},
+
+	'get /forum/moreTopics': {
+		controller: 'ForumController',
+		action: 'moreTopics'
+	},
+
+	'get /topic/morePosts': {
+		controller: 'TopicController',
+		action: 'morePosts'
+	},
+
+	'get /:forum/new-topic': {
+		controller: 'TopicController',
+		action: 'new'
+	},
+
+	'get /:forum/:topic': {
+		controller: 'TopicController',
+		action: 'index'
+	},
+
 	'get /:forum': {
 		controller: 'ForumController',
 		action: 'index'

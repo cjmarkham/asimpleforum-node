@@ -63,8 +63,7 @@ module.exports = function (grunt) {
     'linker/js/jquery.js',
     'linker/js/bootstrap.js',
     'linker/js/color.js',
-    'linker/js/asf.js',
-    'linker/js/dom.js'
+    'linker/js/asf.js'
   ];
 
 

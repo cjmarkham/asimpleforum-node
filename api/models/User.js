@@ -29,7 +29,8 @@ module.exports = {
 			required: true
 		},
 		perm_group: {
-			model: 'Group'
+			model: 'Group',
+			defautsTo: 3
 		},
 		topics: {
 			type: 'integer',

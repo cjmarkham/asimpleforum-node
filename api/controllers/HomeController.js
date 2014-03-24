@@ -82,10 +82,11 @@ module.exports = {
 
 			}
 
-			res.view({
+			return res.view({
 				title: 'Home',
 				section: 'index',
-				forums: parents
+				forums: parents,
+				layout: req.xhr ? false : 'layout'
 			});
 
 		});

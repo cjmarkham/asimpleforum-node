@@ -2,6 +2,134 @@ var ASF = {
 
 	user: null,
 
+	globals: {
+		forum: {}
+	},
+
+	utils: {
+		toUrl: function (string) {
+			return encodeURIComponent(string).replace(/%20/g, '-');
+		}
+	},
+
+	forum: {
+
+		loadMoreTopics: function (forumId, offset) {
+
+			if ($('#no-topics').length) {
+				return false;
+			}
+
+			$.post('/forum/moreTopics', {
+				offset: offset,
+				forumId: forumId
+			}).done(function (topics) {
+				
+				if (topics.length) {
+					ASF.elements.append('#topics .content', 'partials/topic/list', {topics: topics});
+				} else {
+					if (!$('#no-topics').length) {
+						$('#topics .content').append($('<p id="no-topics" class="alert alert-warning" />').text('No more topics'));
+					}
+				}
+
+			});
+
+		}
+
+	},
+
+	topic: {
+
+		create: function (node) {
+
+			var nameElement = $('.title-edit:first');
+			var contentElement = $('.post-content');
+
+			if (nameElement.find('.placeholder').length || contentElement.find('.placeholder').length) {
+				ASF.message.error('Please fill in all fields.');
+				return false;
+			}
+
+			var name = nameElement.text().trim();
+			var content = contentElement.text().trim();
+
+			$.post('/topic/create', {
+				name: name,
+				content: content,
+				forum: ASF.globals.forum.id
+			}).done(function (response) {
+
+				var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name) + '-' + ASF.globals.forum.id;
+				var url = urlPrefix + '/' + ASF.utils.toUrl(response.topic.name) + '-' + response.topic.id;
+
+				history.pushState({}, 'Title', url);
+				ASF.page.load(url);
+
+			}).fail(function (response) {
+				ASF.elements.removeLoader(node);
+
+				return ASF.errors.parse(response);
+			});
+		},
+
+		newTrigger: function (node) {
+
+			var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name) + '-' + ASF.globals.forum.id;
+
+			history.pushState({}, 'Title', urlPrefix + '/new-topic');
+
+			ASF.page.load(urlPrefix + '/new-topic');
+
+		},
+
+		updateName: function (node) {
+			var name = node.text().trim();
+
+			$('.title-edit').not(node).text(name);
+		},
+
+		loadMorePosts: function (topicId, offset) {
+
+			if ($('#no-posts').length) {
+				return false;
+			}
+
+			$.post('/topic/morePosts', {
+				offset: offset,
+				topicId: topicId
+			}).done(function (posts) {
+				
+				if (posts.length) {
+					ASF.elements.append('#post-list', 'partials/post/list', {posts: posts});
+				} else {
+					if (!$('#no-posts').length) {
+						$('#post-list').append($('<p id="no-posts" class="alert alert-warning" />').text('No more posts'));
+					}
+				}
+
+			});
+
+		}
+
+	},
+
+	post: {
+
+		create: function (node) {
+
+		},
+
+		newTrigger: function (node) {
+
+			ASF.elements.append('#post-list', 'partials/post/single-blank');
+
+			node.text('Save post').attr('data-action', 'post.create');
+
+		}
+
+	},
+
 	auth: {
 
 		register: function (node) {
@@ -44,11 +172,14 @@ var ASF = {
 					var params = {
 						req: {
 							session: {
-								user: response,
+								User: response,
 								authenticated: true
 							}
 						}
 					};
+
+					$('.hidden-no-user').show();
+					$('.hidden-user').hide();
 
 					ASF.elements.replace('#userbox', 'sidebars/userbox', params);
 					ASF.elements.replace('#nav-quick-access', 'partials/user/navQuickAccess', params);
@@ -113,6 +244,28 @@ var ASF = {
 				$(target).html(html);
 			});
 
+		},
+
+		prepend: function (target, element, params) {
+
+			$.post('/element', {
+				element: element,
+				params: params
+			}).done(function (html) {
+				$(target).prepend(html);
+			});
+
+		},
+
+		append: function (target, element, params) {
+
+			$.post('/element', {
+				element: element,
+				params: params
+			}).done(function (html) {
+				$(target).append(html);
+			});
+
 		}
 
 	},
@@ -143,7 +296,7 @@ var ASF = {
 			if (typeof method == 'function') {
 				method($(node));
 			} else {
-				console.error('No such method ASF:' + action);
+				console.error('No such method ASF.' + action);
 			}
 		}
 
@@ -202,47 +355,64 @@ var ASF = {
 
 		parse: function (response) {
 
-			var errorStack = response.responseJSON.ValidationError;
-
-			if (errorStack) {
-				
-				for (var element in errorStack) {
-
-					ASF.errors.highlightElement(element);
-
-					for (var index in errorStack[element]) {
-						var rule = errorStack[element][index].rule;
-
-						var messages = [];
-						
-						switch (rule) {
-							case 'required':
-								ASF.message.error(element + ' is a required field.');
-								break;
-							case 'email':
-								ASF.message.error(element + ' must be a valid email.');
-								break;
-						}
-					}
-
-				}
-
-			} else {
-				errorStack = response.responseJSON.error;
+			if (response.responseJSON) {
+				var errorStack = response.responseJSON.ValidationError;
 
 				if (errorStack) {
+					
+					for (var element in errorStack) {
 
-					for (var i = 0; i < errorStack.length; i++) {
-						ASF.message.error(errorStack[i]);
+						ASF.errors.highlightElement(element);
+
+						for (var index in errorStack[element]) {
+							var rule = errorStack[element][index].rule;
+
+							var messages = [];
+							
+							switch (rule) {
+								case 'required':
+									ASF.message.error(element + ' is a required field.');
+									break;
+								case 'email':
+									ASF.message.error(element + ' must be a valid email.');
+									break;
+							}
+						}
+
 					}
 
 				} else {
-					ASF.message.error(response.responseJSON);
+					errorStack = response.responseJSON.error;
+
+					if (errorStack) {
+
+						for (var i = 0; i < errorStack.length; i++) {
+							ASF.message.error(errorStack[i]);
+						}
+
+					} else {
+						ASF.message.error(response.responseJSON);
+					}
 				}
+
+			} else {
+				ASF.message.error(response.responseText);
 			}
 
 		}
 
+	},
+
+	page: {
+		load: function (url) {
+
+			$.get(url).done(function (response) {
+				$('#main-wrapper').hide().html(response).fadeIn(300);
+
+				window.history.pushState({}, 'Title', url);
+			});
+
+		}
 	}
 
 };

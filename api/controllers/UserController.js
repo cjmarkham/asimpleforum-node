@@ -61,18 +61,20 @@ module.exports = {
 		User.find({}).exec(function (error, users) {
 			
 			if (error) {
-				res.json({
+				return res.json({
 					error: error
 				});
 			}
 
 			// Subscribe to the model class
 			User.watch(req.socket);
+			Topic.watch(req.socket);
 
 			// subscribe to the model instance
 			User.subscribe(req.socket, users);
+			Topic.subscribe(req.socket, users);
 
-			res.send(200);
+			return res.send(200);
 
 		});
 		
