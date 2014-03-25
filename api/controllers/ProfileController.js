@@ -18,7 +18,7 @@ module.exports = {
 
 			res.view({
 				title: user.username,
-				section: 'user',
+				section: 'profile',
 				user: user,
 				following: false,
 				layout: req.xhr ? false : 'layout'

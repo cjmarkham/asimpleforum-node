@@ -101,17 +101,17 @@
 
 		<div class="row">
 
-			<% if (sails.config.sidebars[section]) { %>
-				<div class="col-md-3 hidden-xs hidden-sm">
+			<% if (sails.config.sidebars[section].length) { %>
+				<aside id="sidebar" class="col-md-3 hidden-xs hidden-sm">
 					
 					<% _.each(sails.config.sidebars[section], function (element) { %>
 						<%- partial('sidebars/' + element) %>
 					<% }) %>
 
-				</div>
+				</aside>
 			<% } %>
 
-			<% if (sails.config.sidebars[section]) { %>
+			<% if (sails.config.sidebars[section].length) { %>
 				<div id="main-wrapper" class="col-md-9">
 			<% } else { %>
 				<div id="main-wrapper" class="full">

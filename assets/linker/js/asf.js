@@ -475,7 +475,9 @@ var ASF = {
 
 	page: {
 
-		url: location.href,
+		url: location.pathname,
+
+		sidebar: [],
 
 		updateUrl: false,
 
@@ -492,7 +494,7 @@ var ASF = {
 
 				if (ASF.page.updateUrl === true) {
 					console.log('ASF:load:pushState');
-					
+
 					window.history.pushState({
 						url: ASF.page.url
 					}, null, ASF.page.url);
@@ -503,6 +505,12 @@ var ASF = {
 				console.log('ASF:load:response');
 
 				$('#main-wrapper').html(response);
+
+				if (ASF.page.sidebar.length) {
+					ASF.page.showSidebar();
+				} else {
+					ASF.page.hideSidebar();
+				}
 
 				return;
 				
@@ -519,6 +527,16 @@ var ASF = {
 
 				return;
 			}
+		},
+
+		hideSidebar: function () {
+			$('#sidebar').hide();
+			$('#main-wrapper').removeClass('col-md-9').addClass('full');
+		},
+
+		showSidebar: function () {
+			$('#sidebar').show();
+			$('#main-wrapper').removeClass('full').addClass('col-md-9');
 		}
 	}
 

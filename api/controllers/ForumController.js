@@ -9,8 +9,6 @@ module.exports = {
 
 	index: function (req, res) {
 		var url = req.param('forum');
-		console.log(url);
-		console.log(req.originalUrl);
 		var parts = url.split('-');
 
 		var forumId = parts[parts.length - 1];

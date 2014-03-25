@@ -79,3 +79,7 @@
  	<% }) %>
 
 </section>
+
+<script>
+	ASF.page.sidebar = <%-: sails.config.sidebars[section]|json_encode %>;
+</script>

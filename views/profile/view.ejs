@@ -6,6 +6,8 @@ $(function () {
 	<% if (req.session.authenticated && req.session.User.id != user.id) { %>
 		ASF.profile.updateViews(<%= user.id %>);
 	<% } %>
+
+	ASF.page.sidebar = <%-: sails.config.sidebars[section]|json_encode %>;
 });
 </script>
 

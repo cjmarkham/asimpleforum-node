@@ -10,7 +10,15 @@
 
 module.exports.bootstrap = function (cb) {
 
-  // It's very important to trigger this callack method when you are finished 
-  // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
-  cb();
+	// Set all users to offline when server restarted
+	User.update({}, {
+		active: false
+	}, function (error, updated) {
+		if (error) {
+			console.error(error);
+			return false;
+		}
+
+		cb();
+	});
 };

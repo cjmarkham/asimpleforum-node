@@ -40,6 +40,11 @@ module.exports.routes = {
 		action: 'create'
 	},
 
+	'get /session/list': {
+		controller: 'SessionController',
+		action: 'list'
+	},
+
 	'get /forum/moreTopics': {
 		controller: 'ForumController',
 		action: 'moreTopics'

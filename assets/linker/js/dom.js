@@ -61,7 +61,7 @@ $(function () {
 
 	socket.get('/session/list', function (users) {
 
-		if (!users) {
+		if (!users.length) {
 			$('#online-list .content').text('No online users');
 			return false;
 		}
