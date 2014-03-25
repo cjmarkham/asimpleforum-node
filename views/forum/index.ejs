@@ -28,35 +28,6 @@
 	New topic
 </button>
 
-<div class="modal fade" id="new-topic-modal" tabindex="-1" role="dialog" aria-labelledby="newTopicModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-body">
-				<form method="post" action="javascript:void(0)" data-event="submit" data-action="topic.create">
-					<div class="form-group">
-						<label>
-							Name
-						</label>
-						<input type="text" name="name" class="form-control" />
-					</div>
-					<div class="form-group">
-						<label>
-							Content
-						</label>
-						<textarea rows="6" class="form-control" name="content"></textarea>
-					</div>
-					<a href="javascript:void(0)" class="btn btn-danger" data-dismiss="modal">
-						Cancel
-					</a>
-					<button class="btn btn-orange">
-						Create topic
-					</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script>
 	ASF.globals.forum = <%-: forum|json_encode %>;
 

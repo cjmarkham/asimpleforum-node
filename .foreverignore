@@ -1,3 +1,4 @@
 **/.tmp/**
 views/layout.swig
-.git
+.git/**
+.log/**

@@ -31,7 +31,7 @@
 										<p>	
 											<% if (child.lastTopic) { %>
 												<a href="/<%=: child.name|toUrl %>/<%=: child.lastTopic.name|toUrl %>-<%= child.lastTopic.id %>/#<%= child.lastPost.id %>" class="topic-name">
-													<%= child.lastTopic.name %>
+													<%= child.lastPost.name %>
 												</a>
 											<% } else { %>
 												<a href="javascript:void(0)" class="topic-name">

@@ -1,12 +1,8 @@
 $(function () {
 
-	var guests = users = 0;
-
-	if (!ASF.globals.user) {
-		$('.hidden-no-user').hide();
-	} else {
-		$('.hidden-user').hide();
-	}
+	window.history.pushState({
+		url: location.pathname
+	}, null, location.pathname);
 
 	window.addEventListener('popstate', function (event) {
 		

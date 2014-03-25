@@ -24,7 +24,7 @@
 	<% } %>
 
 	<% if (req.session.authenticated) { %>
-		ASF.globals.user = <%-: req.session.User|json_encode %>
+		ASF.user = <%-: req.session.User|json_encode %>
 	<% } %>
 </script>
 

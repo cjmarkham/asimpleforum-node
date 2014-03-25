@@ -24,14 +24,16 @@ module.exports = {
 			}
 
 			// Get amount of all topics
-			Topic.count(function (error, count) {
+			Topic.count().where({
+				forum: forumId
+			}).exec(function (error, count) {
 
 				if (error) {
 					return res.send(500);
 				}
 
 				Topic.find({
-					forum: forumId
+					forum: forum.id
 				})
 				.populate('author')
 				.populate('lastPost')
@@ -39,9 +41,13 @@ module.exports = {
 				.sort({ createdAt: 'desc' })
 				.limit(sails.config.board.topicsPerPage)
 				.done(function (error, topics) {
-					
+
 					if (error) {
 						return res.send(500);
+					}
+
+					for (var i in topics) {
+						topics[i].forum = forum;
 					}
 
 					res.view({

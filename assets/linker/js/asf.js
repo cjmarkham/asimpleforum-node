@@ -124,26 +124,35 @@ var ASF = {
 			var name = nameElement.text().trim();
 			var content = contentElement.text().trim();
 
-			$.post('/topic/create', {
+			socket.get('/topic/create', {
 				name: name,
 				content: content,
 				forum: ASF.globals.forum.id
-			}).done(function (response) {
+			}, function (response) {
+
+				if (response.error) {
+					ASF.elements.removeLoader(node);
+
+					return ASF.errors.parse(response);	
+				}
 
 				var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name) + '-' + ASF.globals.forum.id;
 				var url = urlPrefix + '/' + ASF.utils.toUrl(response.topic.name) + '-' + response.topic.id;
 
-				history.pushState({}, 'Title', url);
+				history.pushState({
+					url: url
+				}, 'Title', url);
 				ASF.page.load(url);
 
-			}).fail(function (response) {
-				ASF.elements.removeLoader(node);
-
-				return ASF.errors.parse(response);
 			});
 		},
 
 		newTrigger: function (node) {
+
+			if (ASF.user == null) {
+				ASF.message.error('You must be logged in.');
+				return false;
+			}
 
 			var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name) + '-' + ASF.globals.forum.id;
 
@@ -187,14 +196,51 @@ var ASF = {
 	post: {
 
 		create: function (node) {
+			var nameElement = $('.title-edit:first');
+			var contentElement = $('.post-content.editable');
+
+			if (nameElement.find('.placeholder').length || contentElement.find('.placeholder').length) {
+				ASF.message.error('Please fill in all fields.');
+				return false;
+			}
+
+			var name = nameElement.text().trim();
+			var content = contentElement.text().trim();
+
+			$.post('/post/create', {
+				name: name,
+				content: content,
+				forum: ASF.globals.forum.id,
+				topic: ASF.globals.topic.id
+			}).done(function (response) {
+
+				$('.helper').remove();
+				$('[contenteditable]').removeAttr('contenteditable');
+
+				$('#save-post').addClass('hide');
+				$('#add-post').removeClass('hide');
+
+			}).fail(function (response) {
+
+				ASF.elements.removeLoader(node);
+
+				return ASF.errors.parse(response);
+
+			});
 
 		},
 
 		newTrigger: function (node) {
 
+			if (ASF.user == null) {
+				ASF.message.error('You must be logged in.');
+				return false;
+			}
+
 			ASF.elements.append('#post-list', 'partials/post/single-blank');
 
-			node.text('Save post').attr('data-action', 'post.create');
+			node.addClass('hide');
+			$('#save-post').removeClass('hide');
 
 		}
 
@@ -248,8 +294,7 @@ var ASF = {
 						}
 					};
 
-					$('.hidden-no-user').show();
-					$('.hidden-user').hide();
+					ASF.user = response;
 
 					ASF.elements.replace('#userbox', 'sidebars/userbox', params);
 					ASF.elements.replace('#nav-quick-access', 'partials/user/navQuickAccess', params);

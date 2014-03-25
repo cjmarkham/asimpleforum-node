@@ -55,6 +55,16 @@ module.exports.routes = {
 		action: 'morePosts'
 	},
 
+	'post /topic/create': {
+		controller: 'TopicController',
+		action: 'create'
+	},
+
+	'post /post/create': {
+		controller: 'PostController',
+		action: 'create'
+	},
+
 	'get /profile/loadPostHistory': {
 		controller: 'ProfileController',
 		action: 'loadPostHistory'

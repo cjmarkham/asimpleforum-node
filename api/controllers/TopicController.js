@@ -14,7 +14,10 @@ module.exports = {
 
 		var topicId = parts[parts.length - 1];
 
-		Topic.findOneById(topicId).done(function (error, topic) {
+		Topic
+		.findOneById(topicId)
+		.populate('forum')
+		.done(function (error, topic) {
 			if (error) {
 				return res.send(error, 500);
 			}
@@ -70,13 +73,13 @@ module.exports = {
 
 		var name = req.param('name');
 		var content = req.param('content');
-		var forum = req.param('forum');
+		var forumId = req.param('forum');
 
 		if (!name || !content) {
 			return res.send('Please fill in all fields', 400);
 		}
 
-		if (!forum) {
+		if (!forumId) {
 			return res.send('No forum id found', 500);
 		}
 
@@ -87,10 +90,14 @@ module.exports = {
 		Topic.create({
 			name: name,
 			author: req.session.User.id,
-			forum: forum
+			forum: forumId
 		}).done(function (error, topic) {
 			if (error) {
 				return res.send(error, 500);
+			}
+
+			if (!topic) {
+				return res.send(500);
 			}
 
 			Post.create({
@@ -103,17 +110,29 @@ module.exports = {
 					return res.send(error, 500);
 				}
 
-				topic.forum = forum;
+				Forum.update({
+					id: forumId
+				}, {
+					lastTopic: topic.id,
+					lastPost: post.id,
+					lastAuthor: req.session.User.id
+				}).done(function (error, forums) {
+					if (error) {
+						return res.send(error, 500);
+					}
 
-				var data = {
-					topic: topic,
-					id: topic.id
-				};
-				data.topic.author = req.session.User;
+					topic.author = req.session.User;
+					topic.forum = forums[0];
 
-				Topic.publishCreate(data);
+					Topic.publishCreate({
+						id: topic.id,
+						topic: topic
+					});
 
-				return res.json({topic: topic, post: post}, 200);
+					return res.json({topic: topic, post: post}, 200);
+				});
+
+				
 			});
 		})
 
