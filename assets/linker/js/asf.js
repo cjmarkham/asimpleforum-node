@@ -12,6 +12,70 @@ var ASF = {
 		}
 	},
 
+	profile: {
+
+		updateViews: function (userId) {
+
+			if (!userId) {
+				return false;
+			}
+
+			$.post('/profile/updateViews', {
+				userId: userId
+			})
+		},
+
+		loadPostHistory: function (node, userId) {
+
+			if (!userId) {
+				userId = node.data('userid');
+			}
+
+			var offset = $('.profile-post').length;
+
+			$.post('/profile/loadPostHistory', {
+				userId: userId,
+				offset: offset
+			}).done(function (posts) {
+				if (posts.length) {
+					ASF.elements.append('#profile-post-history ul', '/partials/profile/posts', {posts: posts})
+
+					if (posts.length < 6) {
+						$('#loadMorePosts').remove();
+					}
+				} else {
+					$('#loadMorePosts').remove();
+				}
+			});
+		},
+
+		loadComments: function (node, userId) {
+
+			if (!userId) {
+				userId = node.data('userid');
+			}
+			
+			var offset = $('.profile-comment').length;
+
+			$.post('/profile/loadComments', {
+				userId: userId,
+				offset: offset
+			}).done(function (comments) {
+				if (comments.length) {
+					ASF.elements.append('#profile-comments ul', '/partials/profile/comments', {comments: comments})
+				
+					if (comments.length < 6) {
+						$('#loadMoreComments').remove();
+					}
+				} else {
+					$('#loadMoreComments').remove();
+				}
+			});
+
+		}
+
+	},
+
 	forum: {
 
 		loadMoreTopics: function (forumId, offset) {
@@ -27,6 +91,12 @@ var ASF = {
 				
 				if (topics.length) {
 					ASF.elements.append('#topics .content', 'partials/topic/list', {topics: topics});
+				
+					var currentShowingAmount = parseInt($('#topic-count').text().trim(), 10);
+					var newShowingAmount = currentShowingAmount + topics.length;
+
+					$('#topic-count').text(newShowingAmount);
+
 				} else {
 					if (!$('#no-topics').length) {
 						$('#topics .content').append($('<p id="no-topics" class="alert alert-warning" />').text('No more topics'));

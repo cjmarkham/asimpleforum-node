@@ -9,12 +9,13 @@
 module.exports = {
 
 	tableName: 'profile_comments',
-	adapter: 'mysql',
 
 	attributes: {
 
 		profile: 'integer',
-		author: 'integer',
+		author: {
+			model: 'User'
+		},
 		comment: 'string',
 		deleted: {
 			type: 'integer',

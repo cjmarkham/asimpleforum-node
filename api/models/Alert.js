@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'alerts',
-	adapter: 'mysql',
 
 	attributes: {
 

@@ -114,32 +114,31 @@
 			<% if (sails.config.sidebars[section]) { %>
 				<div id="main-wrapper" class="col-md-9">
 			<% } else { %>
-				<div id="main-wrapper">
+				<div id="main-wrapper" class="full">
 			<% } %>
 
 				<%- body %>
 
-				<div id="sessions">
-					Currently online: 
-					<p class="inline" title="Users" data-toggle="tooltip"><em class="fa fa-group"></em > <span id="online-user-count"></span></p>
-					<p class="inline" title="Guests" data-toggle="tooltip"><em class="fa fa-user"></em > <span id="online-guest-count"></span></p>
-					
-					<section id="online-list">
-						<header>
-							Currently online users
-						</header>
+			</div>
 
-						<div class="content" id="users">
-							Loading...
-						</div>
-					</section>
-				</div>
+			<div id="sessions" class="col-sm-12">
+				Currently online: 
+				<p class="inline" title="Users" data-toggle="tooltip"><em class="fa fa-group"></em > <span id="online-user-count"></span></p>
+				<p class="inline" title="Guests" data-toggle="tooltip"><em class="fa fa-user"></em > <span id="online-guest-count"></span></p>
+				
+				<section id="online-list">
+					<header>
+						Currently online users
+					</header>
 
+					<div class="content" id="users">
+						Loading...
+					</div>
+				</section>
 			</div>
 
 		</div>
 	</div>
-
 	
 	<footer id="footer">
 		<div class="container">

@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'sessions',
-	adapter: 'mysql',
 
 	attributes: {
 

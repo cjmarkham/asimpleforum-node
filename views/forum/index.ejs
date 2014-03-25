@@ -1,3 +1,7 @@
+<div id="topic-showing-count" class="alert alert-warning">
+	<small>Showing <span id="topic-count"><%= sails.config.board.topicsPerPage %></span> of <%= totalTopics %> Total</small>
+</div>
+
 <section id="topics">
 	<header>
 		<h5><%= forum.name %></h5>
@@ -60,7 +64,7 @@
 
 		$(document).on('scroll', function () {
 			
-			if ($(window).scrollTop() == $(this).height() - $(window).height()) {
+			if ($(window).scrollTop() >= $(this).height() - $(window).height()) {
 				ASF.forum.loadMoreTopics(<%= forum.id %>, $('.topic').length);
 			}
 

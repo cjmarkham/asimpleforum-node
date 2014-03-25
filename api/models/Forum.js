@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'forums',
-	adapter: 'mysql',
 
 	attributes: {
 

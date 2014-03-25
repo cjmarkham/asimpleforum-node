@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'posts',
-	adapter: 'mysql',
 
 	attributes: {
 		
@@ -33,6 +32,10 @@ module.exports = {
 
 		topic: {
 			model: 'Topic'
+		},
+
+		forum: {
+			model: 'Forum'
 		}
 
 	}

@@ -9,13 +9,17 @@ module.exports = {
 
 	register: function (req, res) {
 
-		res.view();
+		res.view({
+			section: 'auth'
+		});
 
 	},
 
 	login: function (req, res) {
 
-		res.view();
+		res.view({
+			section: 'auth'
+		});
 
 	},
 

@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'groups',
-	adapter: 'mysql',
 
 	attributes: {
 

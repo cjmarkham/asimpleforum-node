@@ -16,3 +16,7 @@ ejs.filters.toUrl = function (string) {
 ejs.filters.json_encode = function (object) {
 	return JSON.stringify(object);
 };
+
+ejs.filters.truncate = function (string, length) {
+	return string.length > length ? substr(string, 0, length - 2) + '..' : string;
+};

@@ -50,6 +50,26 @@ module.exports.routes = {
 		action: 'morePosts'
 	},
 
+	'get /profile/loadPostHistory': {
+		controller: 'ProfileController',
+		action: 'loadPostHistory'
+	},
+
+	'get /profile/loadComments': {
+		controller: 'ProfileController',
+		action: 'loadComments'
+	},
+
+	'get /profile/updateViews': {
+		controller: 'ProfileController',
+		action: 'updateViews'
+	},
+
+	'get /user/:username': {
+		controller: 'ProfileController',
+		action: 'view'
+	},
+
 	'get /:forum/new-topic': {
 		controller: 'TopicController',
 		action: 'new'

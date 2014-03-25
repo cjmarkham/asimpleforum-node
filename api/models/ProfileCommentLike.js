@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'profile_comment_likes',
-	adapter: 'mysql',
 
 	attributes: {
 

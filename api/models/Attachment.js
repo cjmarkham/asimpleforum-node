@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'attachments',
-	adapter: 'mysql',
 
 	attributes: {
 

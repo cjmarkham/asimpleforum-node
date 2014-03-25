@@ -4,5 +4,7 @@ module.exports.board = {
 	logo: 'logo.png',
 
 	topicsPerPage: 10,
-	postsPerPage: 10
+	postsPerPage: 10,
+
+	avatarDir: '/assets/uploads/avatars'
 };

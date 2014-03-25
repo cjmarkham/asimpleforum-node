@@ -252,8 +252,19 @@ a {
 	margin-bottom: 120px;
 }
 
-#main-full {
+#main-wrapper.full {
 	padding: 0 15px;
+}
+
+.textarea-login-placeholder {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	color: @darkerGrey;
+}
+
+textarea[disabled], .form-control[disabled] {
+	background: #fff;
 }
 
 #breadcrumbs {
@@ -276,6 +287,14 @@ a {
 			}
 		}
 	}
+}
+
+#topic-showing-count {
+	position: fixed;
+	bottom: 0;
+	right: 20px;
+	z-index: 999999;
+	margin-bottom: 0;
 }
 
 section {

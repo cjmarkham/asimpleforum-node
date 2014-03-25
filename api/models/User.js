@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'users',
-	adapter: 'mysql',
 
 	attributes: {
 
@@ -52,6 +51,9 @@ module.exports = {
 		active: {
 			type: 'boolean',
 			defaultsTo: false
+		},
+		profile: {
+			model: 'Profile'
 		},
 
 		toJSON: function() {

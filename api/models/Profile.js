@@ -9,17 +9,19 @@
 module.exports = {
 
 	tableName: 'profiles',
-	adapter: 'mysql',
 
 	attributes: {
 
 		name: 'string',
-		location: 'string',
-		dob: 'date',
-		gender: 'string',
 		views: {
 			type: 'integer',
 			defaultsTo: 0
+		},
+		location: 'string',
+		dob: 'datetime',
+		gender: {
+			type: 'integer',
+			defaultsTo: 3
 		}
 
 	}

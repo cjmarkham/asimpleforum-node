@@ -9,7 +9,6 @@
 module.exports = {
 
 	tableName: 'followers',
-	adapter: 'mysql',
 
 	attributes: {
 
