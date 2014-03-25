@@ -9,6 +9,8 @@ module.exports = {
 
 	index: function (req, res) {
 		var url = req.param('forum');
+		console.log(url);
+		console.log(req.originalUrl);
 		var parts = url.split('-');
 
 		var forumId = parts[parts.length - 1];
@@ -20,7 +22,7 @@ module.exports = {
 			}
 
 			if (!forum) {
-				return res.send(404);
+				return res.notFound();
 			}
 
 			// Get amount of all topics
@@ -50,7 +52,7 @@ module.exports = {
 						forum: forum,
 						topics: topics,
 						totalTopics: count,
-						layout: req.xhr ? false : 'layout'
+						layout: req.xhr === true ? false : 'layout'
 					});
 
 				});

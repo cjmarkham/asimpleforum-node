@@ -8,6 +8,20 @@ $(function () {
 		$('.hidden-user').hide();
 	}
 
+	window.addEventListener('popstate', function (event) {
+		
+		if (event.state == null) {
+			return false;
+		}
+
+		console.log('popstateEvent', event.state);
+
+		ASF.page.updateUrl = false;
+		ASF.page.url = event.state.url;
+		ASF.page.load();
+
+	});
+
 	$(document).on('click', '[data-event="click"]', ASF.events.call.bind(this));
 	$(document).on('submit', '[data-event="submit"]', ASF.events.call.bind(this));
 	$(document).on('keyup', '[data-event="keyup"]', ASF.events.call.bind(this));
@@ -33,13 +47,15 @@ $(function () {
 		}
 	});
 
-	$('a').on('click', function (event) {
+	$(document).on('click', 'a', function (event) {
 
-		if (!$(this).attr('href').match('http')) {
-			event.preventDefault();
+		event.preventDefault();
 
-			ASF.page.load($(this).attr('href'));
-		}
+		console.log('Sending page request');
+
+		ASF.page.request($(this).attr('href'));
+
+		return;
 
 	});
 

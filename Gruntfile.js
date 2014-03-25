@@ -29,9 +29,9 @@ module.exports = function (grunt) {
    */
 
   var cssFilesToInject = [
-    'linker/styles/bootstrap.css',
-    'linker/styles/font-awesome.css',
-    'linker/styles/asf.css'
+    'linker/styles/bootstrap.css/',
+    'linker/styles/font-awesome.css/',
+    'linker/styles/asf.css/'
   ];
 
 
@@ -49,21 +49,21 @@ module.exports = function (grunt) {
     // linked in the proper order order
 
     // Bring in the socket.io client
-    'linker/js/socket.io.js',
+    'linker/js/socket.io.js/',
 
     // then beef it up with some convenience logic for talking to Sails.js
-    'linker/js/sails.io.js',
+    'linker/js/sails.io.js/',
 
     // A simpler boilerplate library for getting you up and running w/ an
     // automatic listener for incoming messages from Socket.io.
-    'linker/js/app.js',
+    'linker/js/app.js/',
 
     // *->    put other dependencies here   <-*
 
-    'linker/js/jquery.js',
-    'linker/js/bootstrap.js',
-    'linker/js/color.js',
-    'linker/js/asf.js'
+    'linker/js/jquery.js/',
+    'linker/js/bootstrap.js/',
+    'linker/js/color.js/',
+    'linker/js/asf.js/'
   ];
 
 

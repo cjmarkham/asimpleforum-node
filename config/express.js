@@ -30,7 +30,13 @@ module.exports.express = {
 
 		});
 
+		/*var slash = require('express-slash');
+		app.use(app.router);
+		app.use(slash());*/
+
 	},
+
+	//'strict routing': true,
 
 	// Completely override Express middleware loading.  
 	// If you only want to override the bodyParser, cookieParser

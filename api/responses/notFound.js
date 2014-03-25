@@ -31,7 +31,7 @@ module.exports = function notFound() {
   res.render(viewFilePath, function(err) {
     // If the view doesn't exist, or an error occured, send json
     if (err) {
-      return res.json(result, result.status);
+      return res.json({foo: 'var'}, result.status);
     }
 
     // Otherwise, serve the `views/404.*` page

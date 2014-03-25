@@ -20,7 +20,7 @@ module.exports = {
 			}
 
 			if (!topic) {
-				return res.send(404);
+				return res.notFound();
 			}
 
 			Post.find({

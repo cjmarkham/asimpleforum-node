@@ -474,14 +474,51 @@ var ASF = {
 	},
 
 	page: {
+
+		url: location.href,
+
+		updateUrl: false,
+
 		load: function (url) {
 
-			$.get(url).done(function (response) {
-				$('#main-wrapper').hide().html(response).fadeIn(300);
+			console.log('ASF:load');
 
-				window.history.pushState({}, 'Title', url);
+			if (url) {
+				console.log('ASF:load:urlUpdate');
+				ASF.page.url = url;
+			}
+
+			$.get(ASF.page.url).done(function (response) {
+
+				if (ASF.page.updateUrl === true) {
+					console.log('ASF:load:pushState');
+					
+					window.history.pushState({
+						url: ASF.page.url
+					}, null, ASF.page.url);
+
+					ASF.page.updateUrl = false;
+				}
+
+				console.log('ASF:load:response');
+
+				$('#main-wrapper').html(response);
+
+				return;
+				
 			});
 
+		},
+
+		request: function (url) {
+			console.log('ASF:request');
+
+			if (window.history.pushState) {
+				ASF.page.updateUrl = true;
+				ASF.page.load(url);
+
+				return;
+			}
 		}
 	}
 

@@ -13,7 +13,7 @@ module.exports = {
 			}
 
 			if (!user) {
-				res.send(404);
+				res.notFound();
 			}
 
 			res.view({
