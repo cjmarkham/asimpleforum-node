@@ -13,7 +13,10 @@ module.exports = {
 	attributes: {
 
 		comment: 'integer',
-		username: 'string'
+		username: 'string',
+        id: {
+            model: 'ProfileComment'
+        }
 
 	}
 

@@ -6,7 +6,14 @@ ejs.filters.toDate = function (date) {
 };
 
 ejs.filters.date = function (date, format) {
-	return moment(date).format(format);
+
+	if (format === 'c') {
+		date = moment(date).format();
+	} else {
+		date = moment(date).format(format);
+	}
+
+	return date;
 };
 
 ejs.filters.toUrl = function (string) {

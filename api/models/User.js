@@ -29,7 +29,7 @@ module.exports = {
 		},
 		perm_group: {
 			model: 'Group',
-			defautsTo: 3
+			defaultsTo: 3
 		},
 		topics: {
 			type: 'integer',
@@ -54,6 +54,9 @@ module.exports = {
 		},
 		profile: {
 			model: 'Profile'
+		},
+		settings: {
+			model: 'Setting'
 		},
 
 		toJSON: function() {

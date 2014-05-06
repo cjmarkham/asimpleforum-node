@@ -1,4 +1,4 @@
 **/.tmp/**
-views/layout.swig
+views/layout.ejs
 .git/**
 .log/**

@@ -8,12 +8,13 @@
 module.exports = {
 
 	index: function (req, res) {
+
 		var url = req.param('forum');
 		var parts = url.split('-');
 
 		var forumId = parts[parts.length - 1];
 
-		Forum.findOneById(forumId).done(function (error, forum) {
+		Forum.findOneById(forumId).exec(function (error, forum) {
 
 			if (error) {
 				return res.send(error, 500);
@@ -40,7 +41,7 @@ module.exports = {
 				.populate('lastAuthor')
 				.sort({ createdAt: 'desc' })
 				.limit(sails.config.board.topicsPerPage)
-				.done(function (error, topics) {
+				.exec(function (error, topics) {
 
 					if (error) {
 						return res.send(500);
@@ -55,8 +56,9 @@ module.exports = {
 						section: 'forum',
 						forum: forum,
 						topics: topics,
-						totalTopics: count,
-						layout: req.xhr === true ? false : 'layout'
+						currentTopicsCount: topics.length,
+						totalTopicsCount: count,
+						layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
 					});
 
 				});
@@ -86,7 +88,7 @@ module.exports = {
 		.sort({ createdAt: 'desc' })
 		.limit(sails.config.board.topicsPerPage)
 		.skip(offset)
-		.done(function (error, topics) {
+		.exec(function (error, topics) {
 
 			if (error) {
 				return res.send(500);

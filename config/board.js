@@ -6,5 +6,5 @@ module.exports.board = {
 	topicsPerPage: 10,
 	postsPerPage: 10,
 
-	avatarDir: '/assets/uploads/avatars'
+	avatarDir: '/uploads/avatars'
 };

@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+
+var program = require('./_commander');
+
+program
+    .version('0.1', '-v, --version');

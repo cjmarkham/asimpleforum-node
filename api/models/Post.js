@@ -36,6 +36,11 @@ module.exports = {
 
 		forum: {
 			model: 'Forum'
+		},
+
+		likes: {
+			collection: 'likes',
+			via: 'post'
 		}
 
 	}

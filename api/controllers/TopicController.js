@@ -17,7 +17,8 @@ module.exports = {
 		Topic
 		.findOneById(topicId)
 		.populate('forum')
-		.done(function (error, topic) {
+		.populate('author')
+		.exec(function (error, topic) {
 			if (error) {
 				return res.send(error, 500);
 			}
@@ -30,8 +31,9 @@ module.exports = {
 				topic: topicId
 			})
 			.populate('author')
+			.populate('likes')
 			.sort({ createdAt: 'asc' })
-			.done(function (error, posts) {
+			.exec(function (error, posts) {
 				if (error) {
 					return res.send(error, 500);
 				}
@@ -41,7 +43,7 @@ module.exports = {
 					section: 'forum',
 					topic: topic,
 					posts: posts,
-					layout: req.xhr ? false : 'layout'
+					layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
 				});
 
 			});
@@ -56,13 +58,13 @@ module.exports = {
 
 		var forumId = parts[parts.length - 1];
 
-		Forum.findOneById(forumId).done(function (error, forum) {
+		Forum.findOneById(forumId).exec(function (error, forum) {
 
 			res.view({
 				title: 'New topic',
 				forum: forum,
 				section: 'forum',
-				layout: req.xhr ? false : 'layout'
+				layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
 			});
 
 		});
@@ -91,7 +93,7 @@ module.exports = {
 			name: name,
 			author: req.session.User.id,
 			forum: forumId
-		}).done(function (error, topic) {
+		}).exec(function (error, topic) {
 			if (error) {
 				return res.send(error, 500);
 			}
@@ -105,7 +107,7 @@ module.exports = {
 				content: content,
 				topic: topic.id,
 				author: req.session.User.id
-			}).done(function (error, post) {
+			}).exec(function (error, post) {
 				if (error) {
 					return res.send(error, 500);
 				}
@@ -116,7 +118,7 @@ module.exports = {
 					lastTopic: topic.id,
 					lastPost: post.id,
 					lastAuthor: req.session.User.id
-				}).done(function (error, forums) {
+				}).exec(function (error, forums) {
 					if (error) {
 						return res.send(error, 500);
 					}
@@ -156,7 +158,7 @@ module.exports = {
 		.sort({ createdAt: 'desc' })
 		.limit(sails.config.board.postsPerPage)
 		.skip(offset)
-		.done(function (error, posts) {
+		.exec(function (error, posts) {
 
 			if (error) {
 				return res.send(error, 500);
@@ -164,6 +166,24 @@ module.exports = {
 
 			return res.json(posts, 200);
 
+		});
+	},
+
+	updateViews: function (req, res) {
+		var topicId = req.param('topicId');
+
+		if (!topicId) {
+			return false;
+		}
+
+		Topic.findOneById(topicId).exec(function (error, topic) {
+			Topic.update({
+				id: topic.id
+			}, {
+				views: topic.views + 1
+			}, function (error, topic) {
+				return true;
+			});
 		});
 
 

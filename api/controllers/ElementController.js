@@ -9,21 +9,20 @@ module.exports = {
 
 	render: function (req, res) {
 
-		var ejs = require('ejs');
+		var swig = require('swig');
 		var path = require('path');
-		var fs = require('fs');
 
 		var element = req.param('element');
-		var filename = 'views/' + element + '.ejs';
-
-		var template = fs.readFileSync(filename, 'utf8');
 
 		var params = req.param('params') || {};
-		params.filename = filename;
 		params.req = req;
+		params.res = res;
 
-		res.send(ejs.render(template, params), 200);
-		
+		var template = swig.compileFile(path.normalize('../views') + '/' + element + '.swig', {
+			resolveFrom: __dirname
+		});
+
+		res.send(template(params));
 	}
 
 };

@@ -16,8 +16,7 @@ set :branch, fetch(:branch, "master")
    task :restart, :roles => :app, :except => { :no_release => true } do
    	 run "ln -s #{shared_path}/local.js #{current_path}/config/local.js"
    	 run "cd #{current_path} && npm install" 
-   	 run "forever stopall"
-   	 run "forever -w -a -c node app.js"
+   	 run "cd #{current_path} && forever start app.js"
    end
   end
 

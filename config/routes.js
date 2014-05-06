@@ -15,14 +15,45 @@ module.exports.routes = {
 		action: 'create'
 	},
 
+	'get /session/destroy': {
+		controller: 'SessionController',
+		action: 'destroy',
+		skipAssets: true
+	},
+
 	'post /login': {
 		controller: 'SessionController',
 		action: 'create'
 	},
 
-	'get /logout': {
-		controller: 'SessionController',
-		action: 'destroy'
+	'post /topic/updateViews': {
+		controller: 'TopicController',
+		action: 'updateViews',
+		skipAssets: true
+	},
+
+	'post /post/like': {
+		controller: 'PostController',
+		action: 'like',
+		skipAssets: true
+	},
+
+	'post /post/save': {
+		controller: 'PostController',
+		action: 'save',
+		skipAssets: true
+	},
+
+	'post /topic/morePosts': {
+		controller: 'TopicController',
+		action: 'morePosts',
+		skipAssets: true
+	},
+
+	'post /topic/create': {
+		controller: 'TopicController',
+		action: 'create',
+		skipAssets: true
 	},
 
 	'post /element': {
@@ -32,72 +63,97 @@ module.exports.routes = {
 
 	'get /user/subscribe': {
 		controller: 'UserController',
-		action: 'subscribe'
+		action: 'subscribe',
+		skipAssets: true
+	},
+
+	'post /user/save/avatar': {
+		controller: 'UserController',
+		action: 'saveAvatar',
+		skipAssets: true
 	},
 
 	'get /session/create': {
 		controller: 'SessionController',
-		action: 'create'
+		action: 'create',
+		skipAssets: true
+	},
+
+	'post /user/create': {
+		controller: 'UserController',
+		action: 'create',
+		skipAssets: true
 	},
 
 	'get /session/list': {
 		controller: 'SessionController',
-		action: 'list'
+		action: 'list',
+		skipAssets: true
 	},
 
 	'get /forum/moreTopics': {
 		controller: 'ForumController',
-		action: 'moreTopics'
-	},
-
-	'get /topic/morePosts': {
-		controller: 'TopicController',
-		action: 'morePosts'
-	},
-
-	'post /topic/create': {
-		controller: 'TopicController',
-		action: 'create'
+		action: 'moreTopics',
+		skipAssets: true
 	},
 
 	'post /post/create': {
 		controller: 'PostController',
-		action: 'create'
+		action: 'create',
+		skipAssets: true
 	},
 
-	'get /profile/loadPostHistory': {
+	'post /profile/loadPostHistory': {
 		controller: 'ProfileController',
-		action: 'loadPostHistory'
+		action: 'loadPostHistory',
+		skipAssets: true
 	},
 
-	'get /profile/loadComments': {
+	'post /profile/newComment': {
 		controller: 'ProfileController',
-		action: 'loadComments'
+		action: 'newComment',
+		skipAssets: true
 	},
 
-	'get /profile/updateViews': {
+	'post /profile/loadComments': {
 		controller: 'ProfileController',
-		action: 'updateViews'
+		action: 'loadComments',
+		skipAssets: true
+	},
+
+	'post /profile/updateViews': {
+		controller: 'ProfileController',
+		action: 'updateViews',
+		skipAssets: true
+	},
+
+	'get /user/settings': {
+		controller: 'UserController',
+		action: 'settings',
+		skipAssets: true
 	},
 
 	'get /user/:username': {
 		controller: 'ProfileController',
-		action: 'view'
+		action: 'view',
+		skipAssets: true
 	},
 
 	'get /:forum/new-topic': {
 		controller: 'TopicController',
-		action: 'new'
+		action: 'new',
+		skipAssets: true
 	},
 
-	'get /:forum/:topic': {
+	'/:forum/:topic': {
 		controller: 'TopicController',
-		action: 'index'
+		action: 'index',
+		skipAssets: true
 	},
 
 	'get /:forum': {
 		controller: 'ForumController',
-		action: 'index'
-	},
-
+		action: 'index',
+		skipAssets: true
+	}
 };

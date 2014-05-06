@@ -12,7 +12,9 @@ module.exports = {
 
 	attributes: {
 
-		profile: 'integer',
+		profile: {
+			model: 'Profile'
+		},
 		author: {
 			model: 'User'
 		},
@@ -20,6 +22,10 @@ module.exports = {
 		deleted: {
 			type: 'integer',
 			defaultsTo: 0
+		},
+		likes: {
+			collection: 'ProfileCommentLike',
+			via: 'id'
 		}
 
 	}

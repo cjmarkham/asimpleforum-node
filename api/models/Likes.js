@@ -12,9 +12,11 @@ module.exports = {
 
 	attributes: {
 
-		postId: 'integer',
 		username: 'string',
-		added: 'datetime'
+
+        post: {
+            model: 'post'
+        }
 
 	}
 

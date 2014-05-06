@@ -20,8 +20,8 @@ module.exports = {
 		location: 'string',
 		dob: 'datetime',
 		gender: {
-			type: 'integer',
-			defaultsTo: 3
+			type: 'string',
+			defaultsTo: 'unknown'
 		}
 
 	}

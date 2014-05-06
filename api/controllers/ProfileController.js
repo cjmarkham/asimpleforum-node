@@ -4,25 +4,61 @@ module.exports = {
 
 		var username = req.param('username');
 
-		User
-		.findOneByUsername(username)
-		.populate('profile')
-		.done(function (error, user) {
-			if (error) {
-				res.send(500);
-			}
+		User.findOneByUsername(username)
+			.populate('profile')
+			.exec(function (error, user) {
+				if (error) {
+					return res.send(500);
+				}
 
-			if (!user) {
-				res.notFound();
-			}
+				if (!user) {
+					return res.notFound();
+				}
 
-			res.view({
-				title: user.username,
-				section: 'profile',
-				user: user,
-				following: false,
-				layout: req.xhr ? false : 'layout'
+				return res.view({
+					title: user.username,
+					section: 'profile',
+					user: user,
+					following: false,
+					layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
+				});
 			});
+
+	},
+
+	newComment: function (req, res) {
+
+		var profileId = req.param('profileId');
+		var comment = req.param('comment');
+
+		if (comment.length == 0) {
+			return res.json({
+				error: 'Please fill in all fields'
+			}, 403);
+		}
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: 'You must be logged in'
+			}, 403);
+		}
+
+		ProfileComment.create({
+			profile: profileId,
+			author: req.session.User.id,
+			comment: comment
+		}, function (error, comment) {
+
+			if (error) {
+				return res.json({
+					error: error
+				}, 500);
+			}
+
+			return res.json({
+				error: false,
+				comment: comment
+			}, 200);
 		});
 
 	},
@@ -45,7 +81,7 @@ module.exports = {
 		.populate('forum')
 		.populate('topic')
 		.sort({ createdAt: 'desc' })
-		.done(function (error, posts) {
+		.exec(function (error, posts) {
 			if (error) {
 				return res.send(500);
 			}
@@ -66,11 +102,12 @@ module.exports = {
 		ProfileComment.find({
 			profile: userId
 		})
+		.populate('likes')
 		.skip(offset)
 		.limit(6)
 		.populate('author')
 		.sort({ createdAt: 'desc' })
-		.done(function (error, comments) {
+		.exec(function (error, comments) {
 			if (error) {
 				return res.send(500);
 			}
@@ -86,7 +123,7 @@ module.exports = {
 			return res.send(500);
 		}
 
-		Profile.findOneById(userId).done(function (error, profile) {
+		Profile.findOneById(userId).exec(function (error, profile) {
 			if (error) {
 				return res.send(500);
 			}

@@ -3,5 +3,7 @@ module.exports.sidebars = {
 	forum: ["userbox", "recentTopics"],
 	search: ["userbox", "recentTopics"],
 	"new-topics": ["userbox"],
-	profile: []
+	profile: [],
+	settings: ["settingsLinks", "userbox"],
+    auth: ["recentTopics"]
 };

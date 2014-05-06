@@ -21,10 +21,10 @@ module.exports = {
 		var branchRoot = rootData.forumId;
 
 		Forum.find()
-			.populate('lastTopic')
-			.populate('lastPost')
-			.populate('lastAuthor')
-		.done(function (error, results) {
+		.populate('lastTopic')
+		.populate('lastPost')
+		.populate('lastAuthor')
+		.exec(function (error, results) {
 
 			for (var i in results) {
 
@@ -86,7 +86,7 @@ module.exports = {
 				title: 'Home',
 				section: 'index',
 				forums: parents,
-				layout: req.xhr ? false : 'layout'
+				layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
 			});
 
 		});

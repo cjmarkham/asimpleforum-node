@@ -20,7 +20,11 @@ module.exports = {
 			}, 400);
 		}
 
-		User.findOneByUsername(username).done(function (error, user) {
+		User
+		.findOneByUsername(username)
+		.populate('profile')
+		.populate('settings')
+		.exec(function (error, user) {
 
 			if (error) {
 				return res.json({
@@ -53,6 +57,7 @@ module.exports = {
 					}, 400);
 				}
 
+
 				user.active = true;
 				req.session.authenticated = true;
 				req.session.User = user;
@@ -60,7 +65,9 @@ module.exports = {
 				user.save(function (error, user) {
 
 					if (error) {
-						return res.send(error, 500);
+						return res.send({
+							error: error.summary
+						}, 500);
 					}
 
 					User.publishUpdate(user.id, {
@@ -82,7 +89,7 @@ module.exports = {
 	destroy: function (req, res) {
 
 		if (!req.session.authenticated) {
-			res.send(403);
+			return res.send(403);
 		}
 
 		User.update({
@@ -92,7 +99,9 @@ module.exports = {
 		}).exec(function (error, updated) {
 
 			if (error) {
-				res.send(error, 500);
+				return res.json({
+					error: error
+				}, 500);
 			}
 
 			User.publishUpdate(req.session.User.id, {
@@ -104,14 +113,14 @@ module.exports = {
 			req.session.authenticated = false;
 			req.session.User = null;
 
-			res.send(200);
+			return res.send(200);
 		});
 
 	},
 
 	list: function (req, res) {
 
-		User.findByActive(true).done(function (error, users) {
+		User.findByActive(true).exec(function (error, users) {
 			if (error) {
 				res.send(error, 500);
 			}
