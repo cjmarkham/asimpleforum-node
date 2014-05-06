@@ -32,7 +32,7 @@
 			{% if topic.lastPost %}
 				<p>
 					<a href="/{{ topic.forum.name|toUrl }}/{{ topic.name|toUrl }}-{{ topic.id }}/#{{ topic.lastPost.id }}" class="topic-name">
-						<%= topic.lastPost.name %>
+						{{ topic.lastPost.name }}
 					</a>
 				</p>
 				<p>	

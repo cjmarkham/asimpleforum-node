@@ -149,6 +149,8 @@ var ASF = {
 				forum: ASF.globals.forum.id
 			}, function (response) {
 
+				console.log(response);
+
 				if (response.error) {
 					ASF.elements.removeLoader(node);
 
@@ -273,10 +275,12 @@ var ASF = {
 			var nameElement = $('.title-edit:first');
 			var contentElement = $('.post-content.editable');
 
-			if (nameElement.find('.placeholder').length || contentElement.find('.placeholder').length) {
+			if (contentElement.find('.placeholder').length) {
 				ASF.message.error('Please fill in all fields.');
 				return false;
 			}
+
+			nameElement.find('.placeholder').remove();
 
 			var name = nameElement.text().trim();
 			var content = contentElement.text().trim();
@@ -289,7 +293,9 @@ var ASF = {
 			}).done(function (response) {
 
 				$('.helper').remove();
-				$('[contenteditable]').removeAttr('contenteditable');
+				nameElement.closest('.post').remove();
+
+				ASF.elements.append('#post-list', 'partials/post/single', {post: response.post});
 
 				$('#save-post').addClass('hide');
 				$('#add-post').removeClass('hide');

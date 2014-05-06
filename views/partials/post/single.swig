@@ -1,9 +1,9 @@
 <div class="content post">
 	<a name="{{ post.id }}"></a>
-	<div class="row">
+	<div class="row" id="post-{{ post.id }}">
 		<div class="post-author col-sm-2 hidden-xs">
 			<div class="avatar large">
-				<img width="70" height="70" src="/{{ post.author.username }}/large.png" alt="" />
+				<img width="70" height="70" src="{{ sails.config.board.avatarDir }}/{{ post.author.username }}/avatar.png" alt="{{ post.author.username }}" />
 			</div>
 			<p class="truncate w80">
 				<a href="/user/{{ post.author.username }}" class="user-link resize">
@@ -24,23 +24,7 @@
 						<span class="date" title="{{ post.createdAt }}">{{ post.createdAt|toDate }}</span> - <a href="javascript:void(0)" class="topic-name">{{ post.name }}</a>
 					</div>
 					<div class="pull-right post-tools">
-						{% if req.session.authenticated and post.author.id == req.session.User.id %}
-							<a data-postId="{{ post.id }}" href="javascript:void(0)" data-event="click" data-action="editPost">
-								<em class="fa fa-pencil"></em >
-							</a>
-						{% endif %}
-						{% if req.session.authenticated %}
-							<a href="javascript:void(0)" data-event="click" data-action="reportPostTrigger" data-postId="{{ post.id }}">
-								<em class="fa fa-exclamation-triangle"></em >
-							</a>
-							<a href="javascript:void(0)" data-event="click" data-action="posts.likePost" data-postId="{{ post.id }}">
-								<em class="fa fa-thumbs-up"></em >
-							</a>
-						
-							<a href="javascript:void(0)" data-event="click" data-action="quotePost" data-postId="{{ post.id }}" data-author="{{ post.author.username }}">
-								<em title="Quote" data-toggle="tooltip" class="fa fa-comment"></em >
-							</a>
-						{% endif %}
+						{% include "tools.swig" %}
 					</div>
 				</div>
 			</div>
@@ -54,7 +38,7 @@
 					</div>
 				{% endif %}
 
-				{% include likes %}
+				{% include "likes.swig" with post %}
 			</div>
 			{% if post.attachments %}
 				<div class="post-attachments">

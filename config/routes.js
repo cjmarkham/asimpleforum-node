@@ -50,7 +50,7 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
-	'post /topic/create': {
+	'/topic/create': {
 		controller: 'TopicController',
 		action: 'create',
 		skipAssets: true

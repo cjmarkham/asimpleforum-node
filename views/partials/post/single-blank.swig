@@ -1,4 +1,4 @@
-<p class="alert alert-info helper">
+<p class="alert alert-info helper marginTop10">
 	Edit your post and then click the save button to add it.
 </p>
 <div class="content post">
