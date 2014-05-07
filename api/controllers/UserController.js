@@ -107,38 +107,48 @@ module.exports = {
 	saveAvatar: function (req, res) {
 
 		var fs = require('fs');
-		var im = require('imagemagick');
 
 		var avatar = req.files.avatar;
-		console.log(avatar);
 
 		var name = avatar.originalFilename;
 		var size = avatar.size;
 
 		if (size > sails.config.files.maxSize) {
-			return res.send('File size is too big', 400);
+			return res.json({
+				error: res.__('FILE_TOO_BIG')
+			}, 400);
 		}
 
 		var nameParts = name.split('.');
 		var extension = nameParts[nameParts.length - 1];
 
 		if (sails.config.files.types.indexOf(extension) == -1) {
-			return res.send('Invalid file type. Expected one of ' + sails.config.files.types.join(', ') + ' but got ' + extension, 400);
+			return res.json({
+				error: res.__('INVALID_FILE_TYPE', extension)
+			}, 400);
 		}
 
-		var path = 'assets/uploads/avatars/' + req.session.User.username + '/avatar.png';
+		var path = './assets' + sails.config.board.avatarDir + '/' + req.session.User.username + '/avatar.png';
 
 		fs.readFile(req.files.avatar.path, function (error, data) {
+
 			if (error) {
-				return res.send(error, 500);
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
 			}
 
 			fs.writeFile(path, data, function (error) {
+
 				if (error) {
-					return res.send(error, 500);
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
 				}
 
-				return res.send(200);
+				return res.json({
+					error: false
+				}, 200);
 			});
 		});
 	},
