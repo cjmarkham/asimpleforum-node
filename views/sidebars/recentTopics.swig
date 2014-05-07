@@ -9,12 +9,12 @@
 					<li class="clearfix recent-topic">
 						<div class="pull-left">
 							<div class="avatar">
-								<img width="149" height="198" src="/uploads/avatars/{{ topic.author.username }}/avatar.png" alt="" />
+								<img width="149" height="198" src="{{ sails.config.board.avatarDir}}/{{ topic.author.username }}/avatar.png" alt="" />
 							</div>
 						</div>
 						<div class="pull-left marginLeft30">
 							<p class="topic-name">
-								<a href="/{{ topic.forum.name }}/{{ topic.name }}-{{ topic.id }}/1">
+								<a href="/{{ topic.forum.name|toUrl }}/{{ topic.name|toUrl }}-{{ topic.id }}">
 									{{ topic.name }}
 								</a>
 							</p>
