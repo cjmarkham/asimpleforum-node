@@ -25,7 +25,7 @@ module.exports = {
 		},
 		likes: {
 			collection: 'ProfileCommentLike',
-			via: 'id'
+			via: 'comment'
 		}
 
 	}

@@ -61,9 +61,33 @@ module.exports.routes = {
 		action: 'render'
 	},
 
+	'get /profile/likeComment': {
+		controller: 'ProfileController',
+		action: 'likeComment',
+		skipAssets: true
+	},
+
+	'post /profile/deleteComment': {
+		controller: 'ProfileController',
+		action: 'deleteComment',
+		skipAssets: true
+	},
+
 	'get /user/subscribe': {
 		controller: 'UserController',
 		action: 'subscribe',
+		skipAssets: true
+	},
+
+	'get /user/follow': {
+		controller: 'UserController',
+		action: 'follow',
+		skipAssets: true
+	},
+
+	'get /user/unfollow': {
+		controller: 'UserController',
+		action: 'unfollow',
 		skipAssets: true
 	},
 

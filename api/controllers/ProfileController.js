@@ -15,15 +15,113 @@ module.exports = {
 					return res.notFound();
 				}
 
-				return res.view({
-					title: user.username,
-					section: 'profile',
-					user: user,
-					following: false,
-					layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
-				});
+				var following = false;
+
+				if (req.session.authenticated) {
+					Follower.findOne({
+						userId: req.session.User.id,
+						following: user.id
+					}).exec(function (error, follower) {
+						if (follower) {
+							following = true;
+						}
+
+						return res.view({
+							title: user.username,
+							section: 'profile',
+							user: user,
+							following: following,
+							layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
+						});
+					})
+				} else {
+
+					return res.view({
+						title: user.username,
+						section: 'profile',
+						user: user,
+						following: following,
+						layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
+					});
+
+				}
 			});
 
+	},
+
+	deleteComment: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var commentId = req.param('commentId');
+
+		ProfileComment.findOneById(commentId)
+			.populate('author')
+			.exec(function (error, comment) {
+
+				if (comment.author.id !== req.session.User.id) {
+					return res.json({
+						error: res.__('ONLY_DELETE_OWN_COMMENTS')
+					}, 403);
+				}
+
+				ProfileComment.destroy({
+					id: commentId
+				}).exec(function (error) {
+					if (error) {
+						return res.json({
+							error: res.__(error.summary)
+						}, 500);
+					}
+
+					return res.json({
+						error: false
+					}, 200);
+				})
+
+			});
+	},
+
+	likeComment: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var commentId = req.param('commentId');
+
+		ProfileCommentLike.findOne({
+			comment: commentId,
+			username: req.session.User.username
+		}).exec(function (error, commentLike) {
+			if (commentLike) {
+				return res.json({
+					error: res.__('COMMENT_ALREADY_LIKED')
+				}, 400);
+			}
+
+			ProfileCommentLike.create({
+				comment: commentId,
+				username: req.session.User.username
+			}).exec(function (error, commentLike) {
+				if (error) {
+					return res.json({
+						error: res.__(error)
+					}, 500);
+				}
+
+				return res.json({
+					error: false
+				}, 200);
+			});
+
+		});
 	},
 
 	newComment: function (req, res) {
@@ -39,7 +137,7 @@ module.exports = {
 
 		if (!req.session.authenticated) {
 			return res.json({
-				error: 'You must be logged in'
+				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
 		}
 
@@ -54,6 +152,8 @@ module.exports = {
 					error: error
 				}, 500);
 			}
+
+			comment.author = req.session.User;
 
 			return res.json({
 				error: false,

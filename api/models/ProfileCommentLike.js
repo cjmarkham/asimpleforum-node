@@ -12,12 +12,10 @@ module.exports = {
 
 	attributes: {
 
-		comment: 'integer',
-		username: 'string',
-        id: {
+		comment: {
             model: 'ProfileComment'
-        }
-
+        },
+		username: 'string',
 	}
 
 };
