@@ -6,6 +6,47 @@ var ASF = {
 		forum: {}
 	},
 
+	settings: {
+		saveDOB: function (node) {
+			var dob = node.val();
+
+			$.post('/user/save/dob', {
+				dob: dob
+			}).done(function (response) {
+				ASF.message.alert(response.message);
+			}).fail(function (response) {
+				ASF.message.error(response.responseJSON.error);
+				return false;
+			});
+		},
+
+		saveName: function (node) {
+			var name = node.val();
+
+			$.post('/user/save/name', {
+				name: name
+			}).done(function (response) {
+				ASF.message.alert(response.message);
+			}).fail(function (response) {
+				ASF.message.error(response.responseJSON.error);
+				return false;
+			});
+		},
+
+		saveLocation: function (node) {
+			var location = node.val();
+
+			$.post('/user/save/location', {
+				location: location
+			}).done(function (response) {
+				ASF.message.alert(response.message);
+			}).fail(function (response) {
+				ASF.message.error(response.responseJSON.error);
+				return false;
+			});
+		}
+	},
+
 	utils: {
 		toUrl: function (string) {
 			return encodeURIComponent(string).replace(/%20/g, '-');
@@ -141,15 +182,15 @@ var ASF = {
 			}
 
 			var name = nameElement.text().trim();
-			var content = contentElement.text().trim();
+			var content = contentElement.html();
+
+			content = content.replace(/\n/g, '<br />');
 
 			socket.get('/topic/create', {
 				name: name,
 				content: content,
 				forum: ASF.globals.forum.id
 			}, function (response) {
-
-				console.log(response);
 
 				if (response.error) {
 					ASF.elements.removeLoader(node);
@@ -230,7 +271,6 @@ var ASF = {
 
 			contentWrapper.on('blur', function () {
 				var content = contentWrapper.html();
-				console.log(content);
 				ASF.post.save(postId, content);
 			});
 		},
@@ -283,7 +323,9 @@ var ASF = {
 			nameElement.find('.placeholder').remove();
 
 			var name = nameElement.text().trim();
-			var content = contentElement.text().trim();
+			var content = contentElement.html();
+
+			content = content.replace(/\n/g, '<br />');
 
 			$.post('/post/create', {
 				name: name,

@@ -64,6 +64,11 @@ $(function () {
 	$(document).on('submit', '[data-event="submit"]', ASF.events.call.bind(this));
 	$(document).on('keyup', '[data-event="keyup"]', ASF.events.call.bind(this));
 	$(document).on('change', '[data-event="change"]', ASF.events.call.bind(this));
+	$(document).on('keyup', '[data-event="return"]', function (e) {
+		if (e.keyCode === 13) {
+			return ASF.events.call(e);
+		}
+	});
 
 	socket.on('connect', function () {
 		
