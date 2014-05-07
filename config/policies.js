@@ -20,6 +20,10 @@ module.exports.policies = {
 
   TopicController: {
   	"new": 'sessionAuth'
+  },
+
+  UserController: {
+  	settings: "sessionAuth"
   }
 
   /*

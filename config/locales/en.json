@@ -1,3 +1,11 @@
 {
-  "Welcome": "Welcome"
+  "MUST_BE_LOGGED_IN": "You must be logged in to do that.",
+
+
+  "DOB_UPDATED": "Your date of birth has been updated.",
+  "NAME_UPDATED": "Your name has been updated.",
+  "LOCATION_UPDATED": "Your location has been updated.",
+
+
+  "FILL_ALL_FIELDS": "Please fill in all fields."
 }

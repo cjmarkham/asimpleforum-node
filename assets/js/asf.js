@@ -55,6 +55,8 @@ var ASF = {
 
 	profile: {
 
+		
+
 		addComment: function (node) {
 			var profileId = node.find('[name="profileId"]').val();
 			var comment = node.find('[name="profile-comment"]').val();

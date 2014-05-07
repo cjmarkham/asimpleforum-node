@@ -96,10 +96,6 @@ module.exports = {
 	},
 
 	settings: function (req, res) {
-		if (!req.session.authenticated) {
-			return res.send('You must be logged in.', 403);
-		}
-
 		return res.view({
 			title: 'Settings',
 			section: 'settings',
@@ -145,8 +141,114 @@ module.exports = {
 				return res.send(200);
 			});
 		});
-		
+	},
 
+	saveDOB: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var dob = req.param('dob');
+
+		if (!dob) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			dob: dob
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('DOB_UPDATED')
+			});
+		})
+	},
+
+	saveName: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var name = req.param('name');
+
+		if (!name) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			name: name
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('NAME_UPDATED')
+			});
+		})
+	},
+
+	saveLocation: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var location = req.param('location');
+
+		if (!location) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			location: location
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('LOCATION_UPDATED')
+			});
+		})
 	}
 
 };

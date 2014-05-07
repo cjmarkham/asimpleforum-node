@@ -36,8 +36,6 @@ module.exports = {
 		var postId = req.param('postId');
 		var content = req.param('content');
 
-		console.log(content);
-
 		Post.update({
 			id: postId
 		}, {

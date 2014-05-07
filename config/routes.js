@@ -73,6 +73,24 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
+	'post /user/save/dob': {
+		controller: 'UserController',
+		action: 'saveDOB',
+		skipAssets: true
+	},
+
+	'post /user/save/name': {
+		controller: 'UserController',
+		action: 'saveName',
+		skipAssets: true
+	},
+
+	'post /user/save/location': {
+		controller: 'UserController',
+		action: 'saveLocation',
+		skipAssets: true
+	},
+
 	'get /session/create': {
 		controller: 'SessionController',
 		action: 'create',
