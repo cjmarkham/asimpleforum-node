@@ -35,7 +35,7 @@
 
 <body id="page-{{ section }}">
 
-	<a target="_blank" href="https://github.com/cjmarkham/asimpleforum">
+	<a target="_blank" href="https://github.com/cjmarkham/asimpleforum-node">
 		<img id="fork" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub" />
 	</a>
 
