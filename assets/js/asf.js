@@ -55,7 +55,75 @@ var ASF = {
 
 	profile: {
 
-		
+		deleteComment: function (node) {
+			var commentId = node.attr('data-commentid');
+
+			$.post('/profile/deleteComment', {
+				commentId: commentId
+			}).done(function () {
+				$('.profile-comment-' + commentId).remove();
+			}).fail(function (response) {
+				ASF.message.error(response.responseJSON.error);
+				return false;
+			});
+		},
+
+		likeComment: function (node) {
+
+			var commentId = node.attr('data-commentid');
+
+			socket.get('/profile/likeComment', {
+				commentId: commentId
+			}, function (response) {
+				if (response.error) {
+					ASF.message.error(response.error);
+					return false;
+				}
+
+				var currentLikes = parseInt($('.profile-comment-likes[data-comment="' + commentId + '"]').text().trim(), 10);
+				var newLikes = currentLikes + 1;
+
+				$('.profile-comment-likes[data-comment="' + commentId + '"]').text(newLikes);
+			});
+		},
+
+		follow: function (node) {
+			var userId = node.attr('data-userid');
+
+			socket.get('/user/follow', {
+				userId: userId
+			}, function (response) {
+
+				if (response.error) {
+					ASF.message.error(response.error);
+					return false;
+				}
+
+				node.text('Unfollow')
+					.removeClass('btn-primary')
+					.addClass('btn-danger')
+					.attr('data-action', 'profile.unfollow');
+			});
+		},
+
+		unfollow: function (node) {
+			var userId = node.attr('data-userid');
+
+			socket.get('/user/unfollow', {
+				userId: userId
+			}, function (response) {
+
+				if (response.error) {
+					ASF.message.error(response.error);
+					return false;
+				}
+
+				node.text('Follow')
+					.removeClass('btn-danger')
+					.addClass('btn-primary')
+					.attr('data-action', 'profile.follow');
+			});
+		},
 
 		addComment: function (node) {
 			var profileId = node.find('[name="profileId"]').val();
@@ -64,12 +132,15 @@ var ASF = {
 			$.post('/profile/newComment', {
 				profileId: profileId,
 				comment: comment
-			}).done(function () {
+			}, function (response) {
+				if (response.error) {
+					ASF.message.error(response.error);
+					return false;
+				} else {
 
+					ASF.elements.prepend('#profile-comments ul', '/partials/profile/comment', {comment: response.comment})
 
-
-			}).fail(function (error) {
-				ASF.message.error(error);
+				}
 			});
 
 		},

@@ -215,6 +215,82 @@ module.exports = {
 		})
 	},
 
+	follow: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var userId = req.param('userId');
+
+		Follower.find({
+			userId: req.session.User.id,
+			following: userId
+		}).exec(function (error, follower) {
+			if (follower.length) {
+				return res.json({
+					error: res.__('ALREADY_FOLLOWING')
+				}, 400);
+			}
+
+			Follower.create({
+				userId: req.session.User.id,
+				following: userId
+			}, function (error, follower) {
+				if (error) {
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
+				}
+
+				return res.json({
+					error: false
+				}, 200);
+			});
+
+		});
+	},
+
+	unfollow: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var userId = req.param('userId');
+
+		Follower.find({
+			userId: req.session.User.id,
+			following: userId
+		}).exec(function (error, follower) {
+			if (!follower.length) {
+				return res.json({
+					error: res.__('NOT_FOLLOWING')
+				}, 400);
+			}
+
+			Follower.destroy({
+				userId: req.session.User.id,
+				following: userId
+			}).exec(function (error) {
+				if (error) {
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
+				}
+
+				return res.json({
+					error: false
+				}, 200);
+			});
+
+		});
+	},
+
 	saveLocation: function (req, res) {
 
 		if (!req.session.authenticated) {
