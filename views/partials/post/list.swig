@@ -46,7 +46,7 @@
 				</div>
 				{% if post.quoted %}
 					<div class="post-quoted">
-						<a class="external" href="/{{ topic.forum.name|toUrl }}-{{ topic.forum.id }}/{{ topic.name|toUrl }}-{{ topic.id }}/#{{ post.quoted.id }}">
+						<a class="external" href="/{{ topic.forum.name|toUrl }}/{{ topic.name|toUrl }}-{{ topic.id }}/#{{ post.quoted.id }}">
 							Reply to {{ post.quoted.name }}
 						</a>
 					</div>
