@@ -64,7 +64,7 @@ module.exports = {
 			res.view({
 				title: 'New topic',
 				forum: forum,
-				section: 'forum',
+				section: 'new-topic',
 				layout: req.xhr ? '../layout-ajax.swig' : '../layout.swig'
 			});
 

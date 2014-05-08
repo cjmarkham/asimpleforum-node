@@ -39,7 +39,9 @@
 		</div>
 	</div>
 
-	<button id="save-post" class="btn btn-orange" data-event="click" data-action="post.create" {% if reply %}data-quoted="{{ reply.postId }}"{% endif %}>
-		Save Post
-	</button>
+	{% if section != 'new-topic' %}
+		<button id="save-post" class="btn btn-orange" data-event="click" data-action="post.create" {% if reply %}data-quoted="{{ reply.postId }}"{% endif %}>
+			Save Post
+		</button>
+	{% endif %}
 </div>
