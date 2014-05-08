@@ -113,16 +113,16 @@
 
 		<div class="row">
 
-			{% if sails.config.sidebars[section] and sails.config.sidebars[section].length %}
-				<aside id="sidebar" class="col-md-3 hidden-xs hidden-sm">
+			<aside id="sidebar" class="col-md-3 hidden-xs hidden-sm">
+				{% if sails.config.sidebars[section] and sails.config.sidebars[section].length %}
 					
 					{% for element in sails.config.sidebars[section] %}
 						{% set sidebar = "sidebars/" + element + ".swig" %}
 						{% include sidebar %}
 					{% endfor %}
 
-				</aside>
-			{% endif %}
+				{% endif %}
+			</aside>
 
 			{% if sails.config.sidebars[section] and sails.config.sidebars[section].length %}
 				<div id="main-wrapper" class="col-md-9">

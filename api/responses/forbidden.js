@@ -38,8 +38,11 @@ module.exports = function forbidden(message) {
   for (var key in result) {
     res.locals[key] = result[key];
   }
+
+  return res.redirect('/');
+  
   // And render view
-  res.render(viewFilePath, result, function(err) {
+  /*res.render(viewFilePath, result, function(err) {
     // If the view doesn't exist, or an error occured, send json
     if (err) {
       return res.json(result, result.status);
@@ -47,5 +50,5 @@ module.exports = function forbidden(message) {
 
     // Otherwise, serve the `views/403.*` page
     res.render(viewFilePath);
-  });
+  });*/
 };

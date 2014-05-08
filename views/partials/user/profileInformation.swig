@@ -1,4 +1,8 @@
 <form role="form" method="post" action="javascript:void(0)" class="form-horizontal" id="avatar-form">
+	<div class="alert alert-info helper">
+		Press enter when you change a setting to save it.
+	</div>	
+	
 	<div class="form-group">
 		<div class="col-sm-3">
 			<label class="control-label">
@@ -41,7 +45,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="user.saveLocation" type="text" class="form-control" name="location" value="{{ req.session.User.profile.location }}" />
+			<input data-event="return" data-action="settings.saveLocation" type="text" class="form-control" name="location" value="{{ req.session.User.profile.location }}" />
 		</div>
 	</div>
 
@@ -52,7 +56,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="user.saveName" type="text" class="form-control" placeholder="Name" name="name" value="{{ req.session.User.profile.name }}" />
+			<input data-event="return" data-action="settings.saveName" type="text" class="form-control" placeholder="Name" name="name" value="{{ req.session.User.profile.name }}" />
 			<p class="help-block">
 				Your name will be displayed on your profile
 			</p>
@@ -66,7 +70,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="user.saveDOB" data-date-format="dd-mm-yyyy" type="text" name="dob" value="{{ req.session.User.profile.dob|date('d-m-Y') }}" class="form-control calander" />
+			<input data-event="return" data-action="settings.saveDOB" data-date-format="dd-mm-yyyy" type="text" name="dob" value="{{ req.session.User.profile.dob|date('d-m-Y') }}" class="form-control calander" />
 		</div>
 	</div>
 

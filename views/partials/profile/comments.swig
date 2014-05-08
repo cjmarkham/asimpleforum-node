@@ -24,11 +24,9 @@
 							</span>
 						</div>
 						<div class="pull-right text-right profile-comment-options">
-							{% if req.session.authenticated and req.session.User.id != user.id %}
-								<em class="fa fa-thumbs-up" title="Like comment" data-event="click" data-action="profile.likeComment" data-commentId="{{ comment.id }}"></em>
-							{% endif %}
+							<em class="fa fa-thumbs-up" title="Like comment" data-event="click" data-action="profile.likeComment" data-commentId="{{ comment.id }}"></em>
 
-							{% if req.session.authenticated and req.session.User.id == user.id %}
+							{% if req.session.authenticated and (req.session.User.id == user.id or req.session.User.id == comment.author.id) %}
 								<em data-event="click" data-action="profile.deleteComment" data-commentId="{{ comment.id }}" class="fa fa-times"></em>
 							{% endif %}
 						</div>

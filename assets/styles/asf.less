@@ -7,6 +7,7 @@
 .marginBottom10 {margin-bottom:10px}
 .marginBottom30 {margin-bottom:30px}
 .marginTop80 {margin-top:80px;}
+.marginTop10 {margin-top:10px;}
 
 .alignTop img {vertical-align: top}
 .alignBottom img {vertical-align: bottom}
@@ -250,6 +251,11 @@ a {
 	z-index: 5;
 	position: relative;
 	margin-bottom: 120px;
+}
+
+.title-edit {
+	background: transparent !important;
+	padding: 0 !important;
 }
 
 #main-wrapper.full {
@@ -989,30 +995,28 @@ section h4 {
 	
 }
 
-#page-settings {
-	.nav-tabs {
-		border: 0;
+#settings-links {
+	border: 0;
 
-		li {
-			float: none;
-			margin-bottom: 0;
+	li {
+		float: none;
+		margin-bottom: 0;
 
-			&.active {
-				a {
-					border: 0;
-					background: transparent;
-				}
-			}
-
+		&.active {
 			a {
-				padding: 5px;
-				margin-right: 0;
 				border: 0;
-				border-radius: 0;
+				background: transparent;
+			}
+		}
 
-				&:hover {
-					background: transparent;
-				}
+		a {
+			padding: 5px;
+			margin-right: 0;
+			border: 0;
+			border-radius: 0;
+
+			&:hover {
+				background: transparent;
 			}
 		}
 	}
@@ -1240,7 +1244,6 @@ section h4 {
 	min-width: 400px;
 	background: #fff;
 	padding: 10px;
-	white-space: pre-wrap;
 }
 
 .help {

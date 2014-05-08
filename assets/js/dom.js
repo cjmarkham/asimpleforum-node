@@ -64,6 +64,11 @@ $(function () {
 	$(document).on('submit', '[data-event="submit"]', ASF.events.call.bind(this));
 	$(document).on('keyup', '[data-event="keyup"]', ASF.events.call.bind(this));
 	$(document).on('change', '[data-event="change"]', ASF.events.call.bind(this));
+	$(document).on('keyup', '[data-event="return"]', function (e) {
+		if (e.keyCode === 13) {
+			return ASF.events.call(e);
+		}
+	});
 
 	socket.on('connect', function () {
 		
@@ -119,6 +124,43 @@ $(function () {
 			}
 		}
 
+	});
+
+	$(document).on('change', 'input[name="avatar"]', function (e) {
+
+		var file = e.target.files[0];
+		var imageType = /image*/;
+
+		console.log(file);
+
+		var fileReader = new FileReader();
+
+		if (file.type.match(imageType)) {
+
+			fileReader.onload = function () {
+
+				var form = document.getElementById('avatar-form');
+				var formData = new FormData(form);
+
+				$.ajax({
+					url: '/user/save/avatar',
+					data: formData,
+					processData: false,
+					contentType: false,
+					type: 'POST'
+				}).done(function () {
+					$('#avatar-list img').attr('src', fileReader.result);
+				}).fail(function (response) {
+					console.log(response);
+					ASF.message.error(response.responseJSON.error);
+					return false;
+				});
+			};
+
+			fileReader.readAsDataURL(file); 
+		} else {
+			asf.error('File must be an image.');
+		}
 	});
 
 });

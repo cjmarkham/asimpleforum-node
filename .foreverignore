@@ -2,3 +2,4 @@
 views/layout.ejs
 .git/**
 .log/**
+assets/uploads/**

@@ -16,7 +16,15 @@ module.exports.policies = {
 
   // Default policy for all controllers and actions
   // (`true` allows public access) 
-  '*': 'localize'
+  '*': 'localize',
+
+  TopicController: {
+  	"new": 'sessionAuth'
+  },
+
+  UserController: {
+  	settings: "sessionAuth"
+  }
 
   /*
 	// Here's an example of adding some policies to a controller

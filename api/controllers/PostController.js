@@ -36,8 +36,6 @@ module.exports = {
 		var postId = req.param('postId');
 		var content = req.param('content');
 
-		console.log(content);
-
 		Post.update({
 			id: postId
 		}, {
@@ -67,7 +65,7 @@ module.exports = {
 			return res.send(500);
 		}
 
-		if (!name || !content) {
+		if (!content) {
 			return res.json({
 				error: 'Please fill in all fields'
 			}, 400);
@@ -79,19 +77,23 @@ module.exports = {
 			}, 403);
 		}
 
-		Post.create({
-			name: name,
-			content: content,
-			author: req.session.User.id,
-			topic: topicId,
-			forum: forumId
-		}).exec(function (error, post) {
+		Topic.findOneById(topicId).exec(function (error, topic) {
 
-			if (error) {
-				return res.send(500);
+			if (!name) {
+				name = 'RE: ' + topic.name;
 			}
 
-			Topic.findOneById(topicId).exec(function (error, topic) {
+			Post.create({
+				name: name,
+				content: content,
+				author: req.session.User.id,
+				topic: topic.id,
+				forum: forumId
+			}).exec(function (error, post) {
+
+				if (error) {
+					return res.send(500);
+				}
 
 				Topic.update({
 					id: topic.id
@@ -120,6 +122,7 @@ module.exports = {
 						}
 
 						post.forum = forum[0];
+						post.author = req.session.User;
 
 						User.update({
 							id: req.session.User.id
@@ -128,7 +131,8 @@ module.exports = {
 						}, function (error, user) {
 
 							return res.json({
-								post: post
+								post: post,
+								error: false
 							}, 200);
 
 						});

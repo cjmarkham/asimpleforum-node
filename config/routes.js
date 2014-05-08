@@ -50,7 +50,7 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
-	'post /topic/create': {
+	'/topic/create': {
 		controller: 'TopicController',
 		action: 'create',
 		skipAssets: true
@@ -61,15 +61,57 @@ module.exports.routes = {
 		action: 'render'
 	},
 
+	'get /profile/likeComment': {
+		controller: 'ProfileController',
+		action: 'likeComment',
+		skipAssets: true
+	},
+
+	'post /profile/deleteComment': {
+		controller: 'ProfileController',
+		action: 'deleteComment',
+		skipAssets: true
+	},
+
 	'get /user/subscribe': {
 		controller: 'UserController',
 		action: 'subscribe',
 		skipAssets: true
 	},
 
+	'get /user/follow': {
+		controller: 'UserController',
+		action: 'follow',
+		skipAssets: true
+	},
+
+	'get /user/unfollow': {
+		controller: 'UserController',
+		action: 'unfollow',
+		skipAssets: true
+	},
+
 	'post /user/save/avatar': {
 		controller: 'UserController',
 		action: 'saveAvatar',
+		skipAssets: true
+	},
+
+	'post /user/save/dob': {
+		controller: 'UserController',
+		action: 'saveDOB',
+		skipAssets: true
+	},
+
+	'post /user/save/name': {
+		controller: 'UserController',
+		action: 'saveName',
+		skipAssets: true
+	},
+
+	'post /user/save/location': {
+		controller: 'UserController',
+		action: 'saveLocation',
 		skipAssets: true
 	},
 

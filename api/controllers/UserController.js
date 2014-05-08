@@ -96,10 +96,6 @@ module.exports = {
 	},
 
 	settings: function (req, res) {
-		if (!req.session.authenticated) {
-			return res.send('You must be logged in.', 403);
-		}
-
 		return res.view({
 			title: 'Settings',
 			section: 'settings',
@@ -113,39 +109,232 @@ module.exports = {
 		var fs = require('fs');
 
 		var avatar = req.files.avatar;
-		console.log(avatar);
 
 		var name = avatar.originalFilename;
 		var size = avatar.size;
 
 		if (size > sails.config.files.maxSize) {
-			return res.send('File size is too big', 400);
+			return res.json({
+				error: res.__('FILE_TOO_BIG')
+			}, 400);
 		}
 
 		var nameParts = name.split('.');
 		var extension = nameParts[nameParts.length - 1];
 
 		if (sails.config.files.types.indexOf(extension) == -1) {
-			return res.send('Invalid file type. Expected one of ' + sails.config.files.types.join(', ') + ' but got ' + extension, 400);
+			return res.json({
+				error: res.__('INVALID_FILE_TYPE', extension)
+			}, 400);
 		}
 
-		var path = 'assets/uploads/avatars/' + req.session.User.username + '/avatar.png';
+		var path = './assets' + sails.config.board.avatarDir + '/' + req.session.User.username + '/avatar.png';
 
 		fs.readFile(req.files.avatar.path, function (error, data) {
+
 			if (error) {
-				return res.send(error, 500);
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
 			}
 
 			fs.writeFile(path, data, function (error) {
+
 				if (error) {
-					return res.send(error, 500);
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
 				}
 
-				return res.send(200);
+				return res.json({
+					error: false
+				}, 200);
 			});
 		});
-		
+	},
 
+	saveDOB: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var dob = req.param('dob');
+
+		if (!dob) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			dob: dob
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('DOB_UPDATED')
+			});
+		})
+	},
+
+	saveName: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var name = req.param('name');
+
+		if (!name) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			name: name
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('NAME_UPDATED')
+			});
+		})
+	},
+
+	follow: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var userId = req.param('userId');
+
+		Follower.find({
+			userId: req.session.User.id,
+			following: userId
+		}).exec(function (error, follower) {
+			if (follower.length) {
+				return res.json({
+					error: res.__('ALREADY_FOLLOWING')
+				}, 400);
+			}
+
+			Follower.create({
+				userId: req.session.User.id,
+				following: userId
+			}, function (error, follower) {
+				if (error) {
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
+				}
+
+				return res.json({
+					error: false
+				}, 200);
+			});
+
+		});
+	},
+
+	unfollow: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var userId = req.param('userId');
+
+		Follower.find({
+			userId: req.session.User.id,
+			following: userId
+		}).exec(function (error, follower) {
+			if (!follower.length) {
+				return res.json({
+					error: res.__('NOT_FOLLOWING')
+				}, 400);
+			}
+
+			Follower.destroy({
+				userId: req.session.User.id,
+				following: userId
+			}).exec(function (error) {
+				if (error) {
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
+				}
+
+				return res.json({
+					error: false
+				}, 200);
+			});
+
+		});
+	},
+
+	saveLocation: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var location = req.param('location');
+
+		if (!location) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Profile.update({
+			id: req.session.User.id
+		}, {
+			location: location
+		}, function (error, profile) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.profile = profile[0];
+
+			return res.json({
+				error: false,
+				message: res.__('LOCATION_UPDATED')
+			});
+		})
 	}
 
 };
