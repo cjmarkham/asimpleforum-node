@@ -103,8 +103,14 @@ module.exports = {
 				return res.send(500);
 			}
 
+			var marked = require('marked');
+
+			var raw = content;
+			content = marked(content);
+
 			Post.create({
 				name: name,
+				raw: raw,
 				content: content,
 				topic: topic.id,
 				author: req.session.User.id
@@ -138,7 +144,10 @@ module.exports = {
 						posts: req.session.User.posts + 1,
 						topics: req.session.User.topics + 1
 					}, function (error) {
-						return res.json({topic: topic, post: post}, 200);
+						return res.json({
+							topic: topic,
+							post: post
+						}, 200);
 					});
 
 				});
