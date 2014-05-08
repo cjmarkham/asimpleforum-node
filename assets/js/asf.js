@@ -284,7 +284,7 @@ var ASF = {
 					return ASF.errors.parse(response);	
 				}
 
-				var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name) + '-' + ASF.globals.forum.id;
+				var urlPrefix = '/' + ASF.utils.toUrl(ASF.globals.forum.name);
 				var url = urlPrefix + '/' + ASF.utils.toUrl(response.topic.name) + '-' + response.topic.id;
 
 				history.pushState({
@@ -399,8 +399,6 @@ var ASF = {
 				postId: postId,
 				content: content
 			}).done(function (response) {
-				console.log(response);
-
 				var contentWrapper = $('#post-' + postId).find('.post-content');
 
 				contentWrapper.html(response.post.content);
