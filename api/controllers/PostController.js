@@ -36,22 +36,45 @@ module.exports = {
 		var postId = req.param('postId');
 		var content = req.param('content');
 
-		Post.update({
-			id: postId
-		}, {
-			content: content
-		}, function (error, post) {
-			if (error) {
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		Post.findOneById(postId).exec(function (error, post) {
+
+			if (req.session.User.id !== post.author) {
 				return res.json({
-					error: error
-				}, 500);
+					error: res.__('ONLY_EDIT_OWN_POST')
+				}, 403);
 			}
 
-			return res.json({
-				error: false,
-				post: post
+			Edits.create({
+				postId: post.id,
+				user: req.session.User.id,
+				old: post.content
+			}).exec(function (error) {
+				Post.update({
+					id: postId
+				}, {
+					content: content
+				}, function (error, post) {
+					if (error) {
+						return res.json({
+							error: error
+						}, 500);
+					}
+
+					return res.json({
+						error: false,
+						post: post
+					});
+				});
 			});
+
 		});
+
 	},
 
 	create: function (req, res) {
