@@ -85,7 +85,7 @@ $(function () {
 		}
 	});
 
-	$(document).on('click', 'a', function (event) {
+	$(document).on('click', 'a:not(.external)', function (event) {
 
 		event.preventDefault();
 
@@ -108,7 +108,7 @@ $(function () {
 			
 			var list = $('#online-list .content span').length;
 			var username = users[i].username;
-			var usernameDisplay = $('<img title="' + username + '" data-toggle="tooltip" id="' + username + '" class="avatar tiny inline" />').attr('src', '/uploads/avatars/' + username + '/avatar.png');
+			var usernameDisplay = $('<a href="/user/' + username + '"><img alt="' + username + '" title="' + username + '" data-toggle="tooltip" id="' + username + '" src="/uploads/avatars/' + username + '/avatar.png" class="avatar tiny inline" /></a>');
 
 			if (list == 0) {
 				$('#online-list .content').empty();

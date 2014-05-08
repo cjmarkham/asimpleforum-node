@@ -111,7 +111,6 @@ module.exports = {
 	saveAvatar: function (req, res) {
 
 		var fs = require('fs');
-		var im = require('imagemagick');
 
 		var avatar = req.files.avatar;
 		console.log(avatar);

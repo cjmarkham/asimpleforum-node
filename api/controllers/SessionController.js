@@ -53,7 +53,7 @@ module.exports = {
 					}
 
 					return res.json({
-						error: 'Invalid credentials'
+						error: res.__('INVALID_CREDENTIALS')
 					}, 400);
 				}
 
@@ -62,7 +62,11 @@ module.exports = {
 				req.session.authenticated = true;
 				req.session.User = user;
 
-				user.save(function (error, user) {
+				User.update({
+					id: user.id
+				}, {	
+					active: true
+				}, function (error) {
 
 					if (error) {
 						return res.send({
@@ -122,10 +126,12 @@ module.exports = {
 
 		User.findByActive(true).exec(function (error, users) {
 			if (error) {
-				res.send(error, 500);
+				return res.send(error, 500);
 			}
 
-			res.json(users, 200);
+			console.log(users);
+
+			return res.json(users, 200);
 		});
 
 	}

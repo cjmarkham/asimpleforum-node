@@ -33,7 +33,7 @@ function userMessageReceived (message) {
 	if (message.data.loggedIn) {
 
 		var list = $('#online-list .content span').length;
-		var usernameDisplay = $('<img title="' + username + '" data-toggle="tooltip" id="' + username + '" class="avatar tiny inline" />').attr('src', '/uploads/avatars/' + username + '/avatar.png');
+		var usernameDisplay = $('<a href="/user/' + username + '"><img alt="' + username + '" title="' + username + '" data-toggle="tooltip" id="' + username + '" class="avatar tiny inline" src="/uploads/avatars/' + username + '/avatar.png" /></a>');
 
 		if (list == 0) {
 			$('#online-list .content').empty();
@@ -54,8 +54,6 @@ function userMessageReceived (message) {
 
 function topicMessageReceived (message) {
 
-	console.log(message.data);
-	
 	if (message.verb === 'created') {
 
 		$.post('/element', {
