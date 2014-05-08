@@ -61,6 +61,8 @@ module.exports = {
 		var topicId = req.param('topic');
 		var forumId = req.param('forum');
 
+		var quoted = req.param('quoted') || null;
+
 		if (!forumId || !topicId) {
 			return res.send(500);
 		}
@@ -88,11 +90,14 @@ module.exports = {
 				content: content,
 				author: req.session.User.id,
 				topic: topic.id,
-				forum: forumId
+				forum: forumId,
+				quoted: quoted
 			}).exec(function (error, post) {
 
 				if (error) {
-					return res.send(500);
+					return res.json({
+						error: error
+					}, 500);
 				}
 
 				Topic.update({
@@ -104,7 +109,9 @@ module.exports = {
 				}).exec(function (error, topic) {
 
 					if (error) {
-						return res.send(500);
+						return res.json({
+							error: error
+						}, 500);
 					}
 
 					post.topic = topic[0];
@@ -118,7 +125,9 @@ module.exports = {
 					}).exec(function (error, forum) {
 
 						if (error) {
-							return res.send(500);
+							return res.json({
+								error: error
+							}, 500);
 						}
 
 						post.forum = forum[0];

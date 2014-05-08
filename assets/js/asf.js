@@ -44,6 +44,19 @@ var ASF = {
 				ASF.message.error(response.responseJSON.error);
 				return false;
 			});
+		},
+
+		saveDateFormat: function (node) {
+			var format = node.find('option:selected').val();
+
+			$.post('/user/save/dateFormat', {
+				format: format
+			}).done(function (response) {
+				ASF.message.alert(response.message);
+			}).fail(function (response) {
+				ASF.message.error(response.responseJSON.error);
+				return false;
+			});
 		}
 	},
 
@@ -336,6 +349,33 @@ var ASF = {
 
 	post: {
 
+		quote: function (node) {
+
+			if ($('#post-blank').length) {
+				$('#post-blank').remove();
+			}
+
+			var postId = node.attr('data-postid');
+			var author = node.attr('data-author');
+			var name = node.attr('data-postname');
+
+			if (ASF.user == null) {
+				ASF.message.error('You must be logged in.');
+				return false;
+			}
+
+			$('#add-post').addClass('hide');
+
+			ASF.elements.insertAfter('.post-' + postId, 'partials/post/single-blank', {
+				reply: {
+					author: author,
+					name: name,
+					postId: postId
+				}
+			});
+
+		},
+
 		edit: function (node) {
 			var postId = node.attr('data-postId');
 			var contentWrapper = $('#post-' + postId).find('.post-content');
@@ -400,20 +440,26 @@ var ASF = {
 
 			content = content.replace(/\n/g, '<br />');
 
+			var quoted = null;
+
+			if (node.attr('data-quoted')) {
+				quoted = node.attr('data-quoted');
+			}
+
 			$.post('/post/create', {
 				name: name,
 				content: content,
 				forum: ASF.globals.forum.id,
-				topic: ASF.globals.topic.id
+				topic: ASF.globals.topic.id,
+				quoted: quoted
 			}).done(function (response) {
 
 				$('.helper').remove();
-				nameElement.closest('.post').remove();
 
 				ASF.elements.append('#post-list', 'partials/post/single', {post: response.post});
 
-				$('#save-post').addClass('hide');
 				$('#add-post').removeClass('hide');
+				$('#post-blank').remove();
 
 			}).fail(function (response) {
 
@@ -589,6 +635,15 @@ var ASF = {
 				$(target).prepend(html);
 			});
 
+		},
+
+		insertAfter: function (target, element, params) {
+			$.post('/element', {
+				element: element,
+				params: params
+			}).done(function (html) {
+				$(html).insertAfter(target);
+			});
 		},
 
 		append: function (target, element, params) {

@@ -21,12 +21,12 @@
 		</label>	
 	</div>
 	<div class="col-sm-9">
-		<select data-event="change" data-action="user.saveDateFormat" class="form-control" name="date-format">
-			<option {% if req.session.User.settings.date_format == 'jS M y, H:i' %}selected{% endif %} value="jS M y, H:i">{{ now()|date('jS M y, H:i') }}</option>
-			<option {% if req.session.User.settings.date_format == 'jS M y, g:i a' %}selected{% endif %} value="jS M y, g:i a">{{ now()|date('jS M y, g:i a') }}</option>
+		<select data-event="change" data-action="settings.saveDateFormat" class="form-control" name="date-format">
+			<option {% if req.session.User.settings.dateFormat == 'jS M y, H:i' %}selected{% endif %} value="jS M y, H:i">{{ now()|date('jS M y, H:i') }}</option>
+			<option {% if req.session.User.settings.dateFormat == 'jS M y, g:i a' %}selected{% endif %} value="jS M y, g:i a">{{ now()|date('jS M y, g:i a') }}</option>
 
-			<option {% if req.session.User.settings.date_format == 'M jS y, H:i' %}selected{% endif %} value="jS M y, H:i">{{ now()|date('M jS y, H:i') }}</option>
-			<option {% if req.session.User.settings.date_format == 'M jS y, g:i a' %}selected{% endif %} value="jS M y, g:i a">{{ now()|date('M jS y, g:i a') }}</option>
+			<option {% if req.session.User.settings.dateFormat == 'M jS y, H:i' %}selected{% endif %} value="M jS y, H:i">{{ now()|date('M jS y, H:i') }}</option>
+			<option {% if req.session.User.settings.dateFormat == 'M jS y, g:i a' %}selected{% endif %} value="M jS y, g:i a">{{ now()|date('M jS y, g:i a') }}</option>
 
 		</select>
 	</div>

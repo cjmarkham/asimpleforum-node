@@ -129,8 +129,6 @@ module.exports = {
 				return res.send(error, 500);
 			}
 
-			console.log(users);
-
 			return res.json(users, 200);
 		});
 

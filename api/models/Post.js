@@ -41,6 +41,10 @@ module.exports = {
 		likes: {
 			collection: 'likes',
 			via: 'post'
+		},
+
+		quoted: {
+			model: 'Post'
 		}
 
 	}

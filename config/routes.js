@@ -97,6 +97,12 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
+	'post /user/save/dateFormat': {
+		controller: 'UserController',
+		action: 'saveDateFormat',
+		skipAssets: true
+	},
+
 	'post /user/save/dob': {
 		controller: 'UserController',
 		action: 'saveDOB',

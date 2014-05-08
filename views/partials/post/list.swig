@@ -1,5 +1,5 @@
 {% for post in posts %}
-	<div class="content post">
+	<div class="content post post-{{ post.id }}">
 		<a name="{{ post.id }}"></a>
 		<div class="row" id="post-{{ post.id }}">
 			<div class="post-author col-sm-2 hidden-xs">
@@ -41,6 +41,13 @@
 
 					{% include "likes.swig" with post %}
 				</div>
+				{% if post.quoted %}
+					<div class="post-quoted">
+						<a class="external" href="/{{ topic.forum.name|toUrl }}-{{ topic.forum.id }}/{{ topic.name|toUrl }}-{{ topic.id }}/#{{ post.quoted.id }}">
+							Reply to {{ post.quoted.name }}
+						</a>
+					</div>
+				{% endif %}
 				{% if post.attachments %}
 					<div class="post-attachments">
 						<h5>Attachments</h5>

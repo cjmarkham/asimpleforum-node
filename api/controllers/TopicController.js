@@ -32,6 +32,7 @@ module.exports = {
 			})
 			.populate('author')
 			.populate('likes')
+			.populate('quoted')
 			.sort({ createdAt: 'asc' })
 			.exec(function (error, posts) {
 				if (error) {

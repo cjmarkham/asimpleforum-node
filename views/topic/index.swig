@@ -33,9 +33,6 @@
 				<button id="add-post" class="btn btn-orange" data-event="click" data-action="post.newTrigger">
 					Add Reply
 				</button>
-				<button id="save-post" class="btn btn-orange hide" data-event="click" data-action="post.create">
-					Save Post
-				</button>
 			{% endif %}
 		</div>
 	</div>

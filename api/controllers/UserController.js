@@ -153,6 +153,43 @@ module.exports = {
 		});
 	},
 
+	saveDateFormat: function (req, res) {
+
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var format = req.param('format');
+
+		if (!format) {
+			return res.json({
+				error: res.__('FILL_ALL_FIELDS')
+			}, 400);
+		}
+
+		Setting.update({
+			id: req.session.User.id
+		}, {
+			dateFormat: format
+		}, function (error, settings) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				}, 500);
+			}
+
+			req.session.User.settings = settings[0];
+
+			return res.json({
+				error: false,
+				message: res.__('DATE_FORMAT_UPDATED')
+			});
+		})
+
+	},
+
 	saveDOB: function (req, res) {
 
 		if (!req.session.authenticated) {
