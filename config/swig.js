@@ -17,3 +17,11 @@ swig.setFilter('toDate', function (date, format) {
 
 	return moment(date).format(format);
 });
+
+swig.setDefaults({
+    locals: {
+        now: function () {
+            return new Date();
+        }
+    }
+});
