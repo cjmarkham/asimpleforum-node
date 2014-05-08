@@ -138,10 +138,6 @@
 		</div>
 		
 		<div id="sessions">
-			Currently online: 
-			<p class="inline" title="Users" data-toggle="tooltip"><em class="fa fa-group"></em > <span id="online-user-count"></span></p>
-			<p class="inline" title="Guests" data-toggle="tooltip"><em class="fa fa-user"></em > <span id="online-guest-count"></span></p>
-			
 			<section id="online-list">
 				<header>
 					Currently online users
