@@ -14,9 +14,12 @@
 				<p title="Group" class="group">
 					<em class="fa fa-group"></em > Admin
 				</p>
-				<p title="Posts" class="post-count">
+				<span title="Posts" class="post-count">
 					<em class="fa fa-pencil"></em > {{ post.author.posts }}
-				</p>
+				</span>
+				<span title="Topics" class="post-count">
+					<em class="fa fa-pencil"></em > {{ post.author.topics }}
+				</span>
 			</div>
 			<div class="post-body col-sm-10 col-xs-12">
 				<div class="post-info">

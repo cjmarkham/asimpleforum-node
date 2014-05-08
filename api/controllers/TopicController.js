@@ -132,7 +132,15 @@ module.exports = {
 						topic: topic
 					});
 
-					return res.json({topic: topic, post: post}, 200);
+					User.update({
+						id: req.session.User.id
+					}, {
+						posts: req.session.User.posts + 1,
+						topics: req.session.User.topics + 1
+					}, function (error) {
+						return res.json({topic: topic, post: post}, 200);
+					});
+
 				});
 
 				
