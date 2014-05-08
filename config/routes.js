@@ -139,7 +139,7 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
-	'get /forum/moreTopics': {
+	'post /forum/moreTopics': {
 		controller: 'ForumController',
 		action: 'moreTopics',
 		skipAssets: true
