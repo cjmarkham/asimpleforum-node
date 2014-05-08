@@ -18,23 +18,9 @@ module.exports.sockets = {
 
 	onConnect: function (session, socket) {
 
-		
-
 	},
 
 	onDisconnect: function (session, socket) {
-	/*console.log('disconnect');
-
-		if (session.authenticated) {
-			Session.unsubscribe(socket, 'users');
-	  socket.emit('logout', session.User.username);
-
-			if (Session.subscribers(session.User.id).length == 0) {
-				
-			}
-		} else {
-	  Session.unsubscribe(socket, 'guests');
-	}*/
 
 	},
 
