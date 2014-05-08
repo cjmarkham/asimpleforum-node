@@ -20,6 +20,17 @@
 <!--SCRIPTS END-->
 
 <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46472475-1', 'asimpleforum.co.uk');
+  ga('send', 'pageview');
+
+</script>
+
+<script>
 	{% if forum %}
 		ASF.globals.forum = {{ forum|safe|json }};
 	{% endif %}
@@ -35,7 +46,7 @@
 
 <body id="page-{{ section }}">
 
-	<a target="_blank" href="https://github.com/cjmarkham/asimpleforum">
+	<a class="external" target="_blank" href="https://github.com/cjmarkham/asimpleforum">
 		<img id="fork" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub" />
 	</a>
 
@@ -74,7 +85,7 @@
 					{% for link in sails.config.navLinks %}
 						<li {% if section == link.section %}class="active"{% endif %}>
 							<h2>
-								<a href="{{ link.link }}">
+								<a {% if link.external %}class="external"{% endif %} href="{{ link.link }}">
 									{{ link.title }}
 								</a>
 							</h2>	
