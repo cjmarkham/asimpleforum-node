@@ -133,6 +133,12 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
+	'post /post/get': {
+		controller: 'PostController',
+		action: 'get',
+		skipAssets: true
+	},
+
 	'get /session/list': {
 		controller: 'SessionController',
 		action: 'list',

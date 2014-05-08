@@ -7,6 +7,20 @@
 
 module.exports = {
 
+	get: function (req, res) {
+		var postId = req.param('postId');
+
+		Post.findOneById(postId).exec(function (error, post) {
+			if (error) {
+				return res.json({
+					error: res.__(error.summary)
+				});
+			}
+
+			return res.json(post, 200);
+		});
+	},
+
 	like: function (req, res) {
 		if (!req.session.authenticated) {
 			return res.json({
@@ -50,6 +64,11 @@ module.exports = {
 				}, 403);
 			}
 
+			var marked = require('marked');
+
+			var raw = content;
+			content = marked(content);
+
 			Edits.create({
 				postId: post.id,
 				user: req.session.User.id,
@@ -58,8 +77,10 @@ module.exports = {
 				Post.update({
 					id: postId
 				}, {
-					content: content
+					content: content,
+					raw: raw
 				}, function (error, post) {
+
 					if (error) {
 						return res.json({
 							error: error
@@ -67,9 +88,9 @@ module.exports = {
 					}
 
 					return res.json({
-						error: false,
-						post: post
-					});
+						post: post[0],
+						message: res.__('POST_UPDATED')
+					}, 200);
 				});
 			});
 
@@ -102,6 +123,11 @@ module.exports = {
 			}, 403);
 		}
 
+		var marked = require('marked');
+
+		raw = content;
+		content = marked(content);
+
 		Topic.findOneById(topicId).exec(function (error, topic) {
 
 			if (!name) {
@@ -110,6 +136,7 @@ module.exports = {
 
 			Post.create({
 				name: name,
+				raw: raw,
 				content: content,
 				author: req.session.User.id,
 				topic: topic.id,

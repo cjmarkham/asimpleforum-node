@@ -380,24 +380,33 @@ var ASF = {
 			var postId = node.attr('data-postId');
 			var contentWrapper = $('#post-' + postId).find('.post-content');
 
-			contentWrapper.attr('contenteditable', true).focus();
+			$.post('/post/get', {
+				postId: postId
+			}).done(function (post) {
+				contentWrapper.attr('contenteditable', true).text(post.raw).focus();
 
-			contentWrapper.on('blur', function () {
-				var content = contentWrapper.html();
-				ASF.post.save(postId, content);
+				contentWrapper.on('blur', function () {
+					var content = contentWrapper.html();
+					ASF.post.save(postId, content);
+				});
 			});
+			
 		},
 
 		save: function (postId, content) {
 
-			content = content.replace(/\n/g, '<br />');
-
 			$.post('/post/save', {
 				postId: postId,
 				content: content
-			}).done(function () {
-				$('#post-' + postId).find('.post-content').removeAttr('contenteditable');
-				ASF.message.alert('Your post has been updated');
+			}).done(function (response) {
+				console.log(response);
+
+				var contentWrapper = $('#post-' + postId).find('.post-content');
+
+				contentWrapper.html(response.post.content);
+				contentWrapper.removeAttr('contenteditable');
+
+				ASF.message.alert(response.message);
 			}).fail(function (error) {
 				ASF.message.error(error);
 			});
@@ -437,8 +446,6 @@ var ASF = {
 
 			var name = nameElement.text().trim();
 			var content = contentElement.html();
-
-			content = content.replace(/\n/g, '<br />');
 
 			var quoted = null;
 

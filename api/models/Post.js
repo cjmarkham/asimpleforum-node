@@ -20,6 +20,10 @@ module.exports = {
 			type: 'text',
 			required: true
 		},
+		raw: {
+			type: 'text',
+			required: true
+		},
 		
 		edited: {
 			type: 'integer',
