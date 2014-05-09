@@ -32,7 +32,7 @@
 										</div>
 
 										<div class="col-sm-4 text-right hidden-xs">
-											{% if child.lastTopic %}
+											{% if child.lastTopic.name %}
 												<div class="clearfix">
 
 													<div class="marginLeft10 pull-right hidden-xs">
