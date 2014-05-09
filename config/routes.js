@@ -44,6 +44,12 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
+	'post /post/report': {
+		controller: 'PostController',
+		action: 'report',
+		skipAssets: true
+	},
+
 	'post /post/save': {
 		controller: 'PostController',
 		action: 'save',

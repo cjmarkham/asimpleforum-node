@@ -12,11 +12,22 @@ module.exports = {
 
 	attributes: {
 
-		type: 'string',
-		typeId: 'integer',
-		reporter: 'integer',
-		reason: 'string',
-		status: 'string'
+		post: {
+            model: 'Post',
+            defaultsTo: null
+        },
+        user: {
+            model: 'User',
+            defaultsTo: null
+        },
+		reporter: {
+            model: 'User'
+        },
+		reason: 'text',
+		status: {
+            type: 'string',
+            defaultsTo: 'new'
+        }
 
 	}
 

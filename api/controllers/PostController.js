@@ -7,6 +7,53 @@
 
 module.exports = {
 
+	report: function (req, res) {
+		if (!req.session.authenticated) {
+			return res.json({
+				error: res.__('MUST_BE_LOGGED_IN')
+			}, 403);
+		}
+
+		var postId = req.param('postId');
+		var reason = req.param('reason');
+
+		if (!reason) {
+			return res.json({
+				error: res.__('FILL_IN_ALL_FIELDS')
+			}, 400);
+		}
+
+		Report.findOne({
+			post: postId,
+			reporter: req.session.User.id
+		}).exec(function (error, report) {
+			if (report) {
+				return res.json({
+					error: res.__('ALREADY_REPORTED')
+				}, 400);
+			}
+
+			Report.create({
+				post: postId,
+				reporter: req.session.User.id,
+				reason: reason
+			}).exec(function (error) {
+				if (error) {
+					console.error(error);
+
+					return res.json({
+						error: res.__(error.summary)
+					}, 500);
+				}
+
+				return res.json({
+					message: res.__('POST_REPORTED')
+				}, 200);
+			});
+		});
+			
+	},
+
 	get: function (req, res) {
 		var postId = req.param('postId');
 
@@ -24,7 +71,7 @@ module.exports = {
 	like: function (req, res) {
 		if (!req.session.authenticated) {
 			return res.json({
-				error: 'You must be logged in'
+				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
 		}
 

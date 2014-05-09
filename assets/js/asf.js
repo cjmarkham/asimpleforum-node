@@ -359,6 +359,39 @@ var ASF = {
 
 	post: {
 
+		reportTrigger: function (node) {
+			var modal = $('#report-modal');
+			var postId = node.attr('data-postid');
+
+			modal.find('input[name="postId"]').val(postId);
+
+			modal.modal({
+				backdrop: false,
+				show: true
+			});
+		},
+
+		report: function (node) {
+
+			var postId = node.find('input[name="postId"]').val();
+			var reason = node.find('textarea[name="reason"]').val();
+
+			$.post('/post/report', {
+				postId: postId,
+				reason: reason
+			}).done(function (response) {
+				var modal = $('#report-modal');
+				node.find('textarea[name="reason"]').val('');
+				modal.modal('hide');
+
+				ASF.message.alert(response.message);
+			}).fail(function (response) {
+				console.log(response);
+				ASF.message.error(response.responseJSON.error);
+			});
+
+		},
+
 		quote: function (node) {
 
 			if ($('#post-blank').length) {
@@ -571,10 +604,6 @@ var ASF = {
 					ASF.elements.replace('#userbox', 'sidebars/userbox', params);
 					ASF.elements.replace('#nav-quick-access', 'partials/user/navQuickAccess', params);
 				
-					if (ASF.topic) {
-						ASF.elements.replace('.post-tools', 'partials/post/tools', params);
-					}
-
 					$('#login-modal').modal('hide');
 				} else {
 					ASF.elements.removeLoader(node);

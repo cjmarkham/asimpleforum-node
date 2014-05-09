@@ -33,6 +33,8 @@ module.exports = {
 			.populate('author')
 			.populate('likes')
 			.populate('quoted')
+			.populate('topic')
+			.populate('forum')
 			.sort({ createdAt: 'asc' })
 			.exec(function (error, posts) {
 				if (error) {
