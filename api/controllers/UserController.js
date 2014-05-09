@@ -32,7 +32,7 @@ module.exports = {
 			password: req.param('password'),
 			confirm: req.param('confirm'),
 			email: req.param('email'),
-			ip: req.connection.remoteAddress
+			ip: req.connection.remoteAddress,
 		};
 
 		User.create(data, function created (error, user) {
@@ -43,6 +43,8 @@ module.exports = {
 			}
 
 			user.active = true;
+			user.profile = user.id;
+			user.settings = user.id;
 
 			req.session.authenticated = true;
       		req.session.User = user;
