@@ -61,7 +61,13 @@ module.exports = {
       				id: user.id
       			}, function (error, profile) {
       				user.profile = profile;
-      				return res.json(user, 200);
+
+      				Setting.create({
+	      				id: user.id
+	      			}, function (error, settings) {
+	      				user.settings = settings;
+      					return res.json(user, 200);
+      				});
       			});
   				
       		});

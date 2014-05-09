@@ -12,7 +12,10 @@ module.exports = {
 
 	attributes: {
 
-		dateFormat: 'string'
+		dateFormat: {
+            type: 'string',
+            defaultsTo: 'jS M Y, H:i'
+        }
 
 	}
 
