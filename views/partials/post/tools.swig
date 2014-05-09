@@ -1,9 +1,9 @@
-{% if req.session.authenticated and post.author.id == req.session.User.id %}
+{% if req.user and post.author.id == req.user.id %}
     <a href="javascript:void(0)">
         <em data-postId="{{ post.id }}" class="fa fa-pencil" data-event="click" data-action="post.edit"></em >
     </a>
 {% endif %}
-{% if req.session.authenticated %}
+{% if req.user %}
     <a href="javascript:void(0)">
         <em class="fa fa-exclamation-triangle" data-event="click" data-action="post.reportTrigger" data-postId="{{ post.id }}"></em >
     </a>

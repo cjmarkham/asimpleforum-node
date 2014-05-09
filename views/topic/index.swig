@@ -55,7 +55,7 @@
 
 		ASF.page.sidebar = {{ sails.config.sidebars[section]|raw|json_encode }};
 
-		{% if not req.session.authenticated or (req.session.authenticated and req.session.User.id != topic.author.id) %}
+		{% if not req.user or (req.user and req.user.id != topic.author.id) %}
 			ASF.topic.updateViews({{ topic.id }});
 		{% endif %}	
 	</script>

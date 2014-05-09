@@ -46,8 +46,8 @@ module.exports = {
 			user.profile = user.id;
 			user.settings = user.id;
 
-			req.session.authenticated = true;
-      		req.session.User = user;
+			req.user = true;
+      		req.user = user;
 
       		user.save(function (error, user) {
 
@@ -136,7 +136,7 @@ module.exports = {
 			}, 400);
 		}
 
-		var dir = './assets' + sails.config.board.avatarDir + '/' + req.session.User.username;
+		var dir = './assets' + sails.config.board.avatarDir + '/' + req.user.username;
 		var path = dir + '/avatar.png';
 
 		fs.readFile(req.files.avatar.path, function (error, data) {
@@ -164,7 +164,7 @@ module.exports = {
 						});
 					});
 				} else {
-					
+
 					fs.writeFile(path, data, function (error) {
 
 						if (error) {
@@ -186,7 +186,7 @@ module.exports = {
 
 	saveDateFormat: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -201,7 +201,7 @@ module.exports = {
 		}
 
 		Setting.update({
-			id: req.session.User.id
+			id: req.user.id
 		}, {
 			dateFormat: format
 		}, function (error, settings) {
@@ -211,7 +211,7 @@ module.exports = {
 				}, 500);
 			}
 
-			req.session.User.settings = settings[0];
+			req.user.settings = settings[0];
 
 			return res.json({
 				error: false,
@@ -223,7 +223,7 @@ module.exports = {
 
 	saveDOB: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -238,7 +238,7 @@ module.exports = {
 		}
 
 		Profile.update({
-			id: req.session.User.id
+			id: req.user.id
 		}, {
 			dob: dob
 		}, function (error, profile) {
@@ -248,7 +248,7 @@ module.exports = {
 				}, 500);
 			}
 
-			req.session.User.profile = profile[0];
+			req.user.profile = profile[0];
 
 			return res.json({
 				error: false,
@@ -259,7 +259,7 @@ module.exports = {
 
 	saveName: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -274,7 +274,7 @@ module.exports = {
 		}
 
 		Profile.update({
-			id: req.session.User.id
+			id: req.user.id
 		}, {
 			name: name
 		}, function (error, profile) {
@@ -284,7 +284,7 @@ module.exports = {
 				}, 500);
 			}
 
-			req.session.User.profile = profile[0];
+			req.user.profile = profile[0];
 
 			return res.json({
 				error: false,
@@ -295,7 +295,7 @@ module.exports = {
 
 	follow: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -304,7 +304,7 @@ module.exports = {
 		var userId = req.param('userId');
 
 		Follower.find({
-			userId: req.session.User.id,
+			userId: req.user.id,
 			following: userId
 		}).exec(function (error, follower) {
 			if (follower.length) {
@@ -314,7 +314,7 @@ module.exports = {
 			}
 
 			Follower.create({
-				userId: req.session.User.id,
+				userId: req.user.id,
 				following: userId
 			}, function (error, follower) {
 				if (error) {
@@ -333,7 +333,7 @@ module.exports = {
 
 	unfollow: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -342,7 +342,7 @@ module.exports = {
 		var userId = req.param('userId');
 
 		Follower.find({
-			userId: req.session.User.id,
+			userId: req.user.id,
 			following: userId
 		}).exec(function (error, follower) {
 			if (!follower.length) {
@@ -352,7 +352,7 @@ module.exports = {
 			}
 
 			Follower.destroy({
-				userId: req.session.User.id,
+				userId: req.user.id,
 				following: userId
 			}).exec(function (error) {
 				if (error) {
@@ -371,7 +371,7 @@ module.exports = {
 
 	saveLocation: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -386,7 +386,7 @@ module.exports = {
 		}
 
 		Profile.update({
-			id: req.session.User.id
+			id: req.user.id
 		}, {
 			location: location
 		}, function (error, profile) {
@@ -396,7 +396,7 @@ module.exports = {
 				}, 500);
 			}
 
-			req.session.User.profile = profile[0];
+			req.user.profile = profile[0];
 
 			return res.json({
 				error: false,

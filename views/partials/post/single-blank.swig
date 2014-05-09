@@ -10,18 +10,18 @@
 		<div class="row">
 			<div class="post-author col-sm-2 hidden-xs">
 				<div class="avatar large">
-					<img width="70" height="70" src="{{ sails.config.board.avatarDir }}/{{ req.session.User.username }}/avatar.png" alt="{{ req.session.User.username }}" />
+					<img width="70" height="70" src="{{ sails.config.board.avatarDir }}/{{ req.user.username }}/avatar.png" alt="{{ req.user.username }}" />
 				</div>
 				<p class="truncate w80">
-					<a href="/user/{{ req.session.User.username }}" class="user-link resize">
-						 {{ req.session.User.username }}
+					<a href="/user/{{ req.user.username }}" class="user-link resize">
+						 {{ req.user.username }}
 					</a>
 				</p>
 				<p title="Group" class="group">
 					<em class="fa fa-group"></em > Admin
 				</p>
 				<p title="Posts" class="post-count">
-					<em class="fa fa-pencil"></em > {{ req.session.User.posts }}
+					<em class="fa fa-pencil"></em > {{ req.user.posts }}
 				</p>
 			</div>
 			<div class="post-body col-sm-10 col-xs-12">
@@ -35,8 +35,30 @@
 				</div>
 				<div data-placeholder="Add the content for your new post here" class="post-content editable" contenteditable><span class="placeholder">Add the content for your new post here</span></div>
 				
+				<div id="attachment-select">
+					<div class="file-input">
+						<button class="btn btn-orange">
+							Choose files
+						</button>
+						<input type="file" multiple name="attachments[]" />
+					</div>
+					<div id="file-list" class="hide">
+						<table class="table table-striped table-bordered marginTop10">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Size</th>
+									<th>Type</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>	
 			</div>
 		</div>
+		
+
 	</div>
 
 	{% if section != 'new-topic' %}
@@ -44,4 +66,5 @@
 			Save Post
 		</button>
 	{% endif %}
+	
 </div>

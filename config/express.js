@@ -8,8 +8,9 @@ module.exports.express = {
 
 	customMiddleware: function (app) {
 
+		var passport = require('passport');
+
 		app.use(function (req, res, next) {
-			
 			Topic.find()
 			.limit(4)
 			.populate('author')
@@ -31,9 +32,8 @@ module.exports.express = {
 
 		});
 
-		/*var slash = require('express-slash');
-		app.use(app.router);
-		app.use(slash());*/
+		app.use(passport.initialize());
+		app.use(passport.session());
 
 	},
 

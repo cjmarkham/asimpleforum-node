@@ -31,8 +31,6 @@ $(function () {
 		var file = e.target.files[0];
 		var imageType = /image*/;
 
-		var fileReader = new FileReader();
-
 		if (file.type.match(imageType)) {
 
 			fileReader.onload = function () {
@@ -57,6 +55,30 @@ $(function () {
 			fileReader.readAsDataURL(file); 
 		} else {
 			ASF.message.error('File must be an image.');
+		}
+	});
+
+	$(document).on('change', '#attachment-select input[type="file"]', function (e) {
+		var files = e.target.files;
+
+		for (var i=0; i<files.length; i++) {
+			var file = files[i];
+
+			var tr = $('<tr />');
+			var td = $('<td />');
+			td.text(file.name);
+			tr.append(td);
+			var td = $('<td />');
+			td.text(Math.round(file.size / 1024) + 'Kb');
+			tr.append(td);
+			var td = $('<td />');
+			td.text(file.type);
+			tr.append(td);
+			$('#file-list table tbody').append(tr);
+		}
+
+		if ($('#file-list').hasClass('hide')) {
+			$('#file-list').removeClass('hide');
 		}
 	});
 

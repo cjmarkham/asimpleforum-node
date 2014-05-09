@@ -8,7 +8,7 @@
 module.exports = {
 
 	report: function (req, res) {
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -25,7 +25,7 @@ module.exports = {
 
 		Report.findOne({
 			post: postId,
-			reporter: req.session.User.id
+			reporter: req.user.id
 		}).exec(function (error, report) {
 			if (report) {
 				return res.json({
@@ -35,7 +35,7 @@ module.exports = {
 
 			Report.create({
 				post: postId,
-				reporter: req.session.User.id,
+				reporter: req.user.id,
 				reason: reason
 			}).exec(function (error) {
 				if (error) {
@@ -69,7 +69,7 @@ module.exports = {
 	},
 
 	like: function (req, res) {
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -78,7 +78,7 @@ module.exports = {
 		var postId = req.param('postId');
 
 		Likes.create({
-			username: req.session.User.username,
+			username: req.user.username,
 			post: postId
 		}).exec(function (error, like) {
 			if (error) {
@@ -97,7 +97,7 @@ module.exports = {
 		var postId = req.param('postId');
 		var content = req.param('content');
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -105,7 +105,7 @@ module.exports = {
 
 		Post.findOneById(postId).exec(function (error, post) {
 
-			if (req.session.User.id !== post.author) {
+			if (req.user.id !== post.author) {
 				return res.json({
 					error: res.__('ONLY_EDIT_OWN_POST')
 				}, 403);
@@ -118,7 +118,7 @@ module.exports = {
 
 			Edits.create({
 				postId: post.id,
-				user: req.session.User.id,
+				user: req.user.id,
 				old: post.content
 			}).exec(function (error) {
 				Post.update({
@@ -164,7 +164,7 @@ module.exports = {
 			}, 400);
 		}
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: 'You must be logged in.'
 			}, 403);
@@ -185,7 +185,7 @@ module.exports = {
 				name: name,
 				raw: raw,
 				content: content,
-				author: req.session.User.id,
+				author: req.user.id,
 				topic: topic.id,
 				forum: topic.forum,
 				quoted: quoted
@@ -200,7 +200,7 @@ module.exports = {
 				Topic.update({
 					id: topic.id
 				}, {
-					lastAuthor: req.session.User.id,
+					lastAuthor: req.user.id,
 					lastPost: post.id,
 					replies: topic.replies + 1
 				}).exec(function (error, topic) {
@@ -216,7 +216,7 @@ module.exports = {
 					Forum.update({
 						id: forumId
 					}, {
-						lastAuthor: req.session.User.id,
+						lastAuthor: req.user.id,
 						lastPost: post.id,
 						lastTopic: topic[0].id
 					}).exec(function (error, forum) {
@@ -228,12 +228,12 @@ module.exports = {
 						}
 
 						post.forum = forum[0];
-						post.author = req.session.User;
+						post.author = req.user;
 
 						User.update({
-							id: req.session.User.id
+							id: req.user.id
 						}, {
-							posts: req.session.User.posts + 1
+							posts: req.user.posts + 1
 						}, function (error, user) {
 
 							return res.json({

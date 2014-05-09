@@ -6,93 +6,38 @@
  */
 
 var bcrypt = require('bcrypt-nodejs');
+var passport = require('passport');
 
 module.exports = {	
 
-	create: function (req, res) {
+	process: function (req, res) {
+		passport.authenticate('local', function (error, user, info) {
+			
+			if (error || !user) {
+				console.error(error);
 
-		var username = req.param('username');
-		var password = req.param('password');
-
-		if (!username || !password) {
-			return res.json({
-				error: 'Please fill in all fields'
-			}, 400);
-		}
-
-		User
-		.findOneByUsername(username)
-		.populate('profile')
-		.populate('settings')
-		.exec(function (error, user) {
-
-			if (error) {
 				return res.json({
-					error: 'Server error'
-				}, 500);
+					error: error
+				}, 403);
 			}
-
-			if (!user) {
-				return res.json({
-					error: 'No User found'
-				}, 400);
-			}
-
-			bcrypt.compare(password, user.password, function (error, match) {
-
+			
+			req.logIn(user, function (error) {
 				if (error) {
+					console.error(error);
 					return res.json({
-						error: 'Server error'
-					}, 500);
+						error: error
+					}, 403);
 				}
-
-				if (!match) {
-					if (req.session.User) {
-						req.session.User = null;
-						req.session.authenticated = false;
-					}
-
-					return res.json({
-						error: res.__('INVALID_CREDENTIALS')
-					}, 400);
-				}
-
-
-				user.active = true;
-				req.session.authenticated = true;
-				req.session.User = user;
-
-				User.update({
-					id: user.id
-				}, {	
-					active: true
-				}, function (error) {
-
-					if (error) {
-						return res.send({
-							error: error.summary
-						}, 500);
-					}
-
-					User.publishUpdate(user.id, {
-						loggedIn: true,
-						id: user.id,
-						username: user.username,
-						action: ' has logged in'
-					});
-
-					return res.json(user, 200);
-				});
-
+				
+				return res.json(user[0], 200);
 			});
 
-		});
-
+		})(req, res);
 	},
 
 	destroy: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.send(403);
 		}
 
@@ -114,8 +59,7 @@ module.exports = {
 				id: req.session.User.id
 			});
 
-			req.session.authenticated = false;
-			req.session.User = null;
+			req.logout();
 
 			return res.send(200);
 		});

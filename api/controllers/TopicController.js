@@ -88,13 +88,13 @@ module.exports = {
 			return res.send('No forum id found', 500);
 		}
 
-		if (req.session.authenticated === false || !req.session.authenticated) {
+		if (req.user === false || !req.user) {
 			return res.send('You must be logged in', 403);
 		}
 
 		Topic.create({
 			name: name,
-			author: req.session.User.id,
+			author: req.user.id,
 			forum: forumId
 		}).exec(function (error, topic) {
 			if (error) {
@@ -116,7 +116,7 @@ module.exports = {
 				content: content,
 				topic: topic.id,
 				forum: topic.forum,
-				author: req.session.User.id
+				author: req.user.id
 			}).exec(function (error, post) {
 				if (error) {
 					return res.send(error, 500);
@@ -127,13 +127,13 @@ module.exports = {
 				}, {
 					lastTopic: topic.id,
 					lastPost: post.id,
-					lastAuthor: req.session.User.id
+					lastAuthor: req.user.id
 				}).exec(function (error, forums) {
 					if (error) {
 						return res.send(error, 500);
 					}
 
-					topic.author = req.session.User;
+					topic.author = req.user;
 					topic.forum = forums[0];
 
 					Topic.publishCreate({
@@ -142,10 +142,10 @@ module.exports = {
 					});
 
 					User.update({
-						id: req.session.User.id
+						id: req.user.id
 					}, {
-						posts: req.session.User.posts + 1,
-						topics: req.session.User.topics + 1
+						posts: req.user.posts + 1,
+						topics: req.user.topics + 1
 					}, function (error) {
 						return res.json({
 							topic: topic,

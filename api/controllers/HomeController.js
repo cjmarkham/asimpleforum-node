@@ -8,7 +8,6 @@
 module.exports = {
 
 	index: function (req, res) {
-
 		var parentId = 0,
 			forums = {},
 			subforums = {},

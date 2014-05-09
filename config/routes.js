@@ -27,9 +27,9 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
-	'post /login': {
+	'get /login': {
 		controller: 'SessionController',
-		action: 'create'
+		action: 'process'
 	},
 
 	'post /topic/updateViews': {

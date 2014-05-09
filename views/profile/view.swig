@@ -6,7 +6,7 @@
 		ASF.profile.loadPostHistory(null, {{ user.profile.id }});
 		ASF.profile.loadComments(null, {{ user.profile.id }});
 		
-		{% if req.session.authenticated && req.session.User.id != user.id %}
+		{% if req.user && req.user.id != user.id %}
 			ASF.profile.updateViews({{ user.id }});
 		{% endif %}
 	});
@@ -56,12 +56,12 @@
 					
 					<form class="relative" method="post" action="javascript:void(0)" data-event="submit" data-action="profile.addComment">
 						<input type="hidden" name="profileId" value="{{ user.profile.id }}" />
-						<textarea class="form-control" name="profile-comment" {% if req.session.authenticated %}placeholder="Write something..."{% else %}disabled{% endif %}></textarea>
+						<textarea class="form-control" name="profile-comment" {% if req.user %}placeholder="Write something..."{% else %}disabled{% endif %}></textarea>
 						<button class="form-control btn btn-primary">
 							Post
 						</button>	
 
-						{% if not req.session.authenticated %}
+						{% if not req.user %}
 							<div class="textarea-login-placeholder">
 								Please <a href="#" data-target="#login-modal" data-toggle="modal">login</a> or <a href="/register">signup</a> to post a comment
 							</div>

@@ -11,7 +11,7 @@
 		</div>
 		<div class="col-sm-6">
 			<div class="marginBottom10 alignBottom" id="avatar-list">
-				<img class="inline avatar large" src="{{ sails.config.board.avatarDir }}/{{ req.session.User.username }}/avatar.png" />
+				<img class="inline avatar large" src="{{ sails.config.board.avatarDir }}/{{ req.user.username }}/avatar.png" />
 			</div>
 			<div class="file-input">
 				<button class="btn btn-orange">
@@ -31,7 +31,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input disabled type="text" class="form-control" value="{{ req.session.User.username }}" />
+			<input disabled type="text" class="form-control" value="{{ req.user.username }}" />
 			<p class="help-block">
 				Your username cannot be changed
 			</p>
@@ -45,7 +45,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="settings.saveLocation" type="text" class="form-control" name="location" value="{{ req.session.User.profile.location }}" />
+			<input data-event="return" data-action="settings.saveLocation" type="text" class="form-control" name="location" value="{{ req.user.profile.location }}" />
 		</div>
 	</div>
 
@@ -56,7 +56,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="settings.saveName" type="text" class="form-control" placeholder="Name" name="name" value="{{ req.session.User.profile.name }}" />
+			<input data-event="return" data-action="settings.saveName" type="text" class="form-control" placeholder="Name" name="name" value="{{ req.user.profile.name }}" />
 			<p class="help-block">
 				Your name will be displayed on your profile
 			</p>
@@ -70,7 +70,7 @@
 			</label>	
 		</div>
 		<div class="col-sm-6">
-			<input data-event="return" data-action="settings.saveDOB" data-date-format="dd-mm-yyyy" type="text" name="dob" value="{{ req.session.User.profile.dob|date('d-m-Y') }}" class="form-control calander" />
+			<input data-event="return" data-action="settings.saveDOB" data-date-format="dd-mm-yyyy" type="text" name="dob" value="{{ req.user.profile.dob|date('d-m-Y') }}" class="form-control calander" />
 		</div>
 	</div>
 

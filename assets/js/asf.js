@@ -584,7 +584,7 @@ var ASF = {
 			var username = node.find('input[name="username"]').val().trim();
 			var password = node.find('input[name="password"]').val().trim();
 
-			socket.get('/session/create', {
+			socket.get('/login', {
 				username: username,
 				password: password
 			}, function (response) {

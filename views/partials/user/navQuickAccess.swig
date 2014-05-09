@@ -1,7 +1,7 @@
-{% if req.session.authenticated %}
+{% if req.user %}
 	<div class="clearfix">
-		<a class="pull-right avatar small background" href="/user/{{ req.session.User.username|toUrl }}">
-			<img width="55" height="55" src="/uploads/avatars/{{ req.session.User.username }}/avatar.png" alt="{{ req.session.User.username }}" title="{{ req.session.User.username }}" />
+		<a class="pull-right avatar small background" href="/user/{{ req.user.username|toUrl }}">
+			<img width="55" height="55" src="/uploads/avatars/{{ req.user.username }}/avatar.png" alt="{{ req.user.username }}" title="{{ req.user.username }}" />
 		</a>
 		<div class="pull-right quick-links relative">
 			<div class="dropdown inline" id="notifications-dropdown">

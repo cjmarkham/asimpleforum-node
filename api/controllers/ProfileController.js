@@ -17,9 +17,9 @@ module.exports = {
 
 				var following = false;
 
-				if (req.session.authenticated) {
+				if (req.user) {
 					Follower.findOne({
-						userId: req.session.User.id,
+						userId: req.user.id,
 						following: user.id
 					}).exec(function (error, follower) {
 						if (follower) {
@@ -51,7 +51,7 @@ module.exports = {
 
 	deleteComment: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -63,7 +63,7 @@ module.exports = {
 			.populate('author')
 			.exec(function (error, comment) {
 
-				if (comment.author.id !== req.session.User.id) {
+				if (comment.author.id !== req.user.id) {
 					return res.json({
 						error: res.__('ONLY_DELETE_OWN_COMMENTS')
 					}, 403);
@@ -88,7 +88,7 @@ module.exports = {
 
 	likeComment: function (req, res) {
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -98,7 +98,7 @@ module.exports = {
 
 		ProfileCommentLike.findOne({
 			comment: commentId,
-			username: req.session.User.username
+			username: req.user.username
 		}).exec(function (error, commentLike) {
 			if (commentLike) {
 				return res.json({
@@ -108,7 +108,7 @@ module.exports = {
 
 			ProfileCommentLike.create({
 				comment: commentId,
-				username: req.session.User.username
+				username: req.user.username
 			}).exec(function (error, commentLike) {
 				if (error) {
 					return res.json({
@@ -135,7 +135,7 @@ module.exports = {
 			}, 403);
 		}
 
-		if (!req.session.authenticated) {
+		if (!req.user) {
 			return res.json({
 				error: res.__('MUST_BE_LOGGED_IN')
 			}, 403);
@@ -143,7 +143,7 @@ module.exports = {
 
 		ProfileComment.create({
 			profile: profileId,
-			author: req.session.User.id,
+			author: req.user.id,
 			comment: comment
 		}, function (error, comment) {
 
@@ -153,7 +153,7 @@ module.exports = {
 				}, 500);
 			}
 
-			comment.author = req.session.User;
+			comment.author = req.user;
 
 			return res.json({
 				error: false,

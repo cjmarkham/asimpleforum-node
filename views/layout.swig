@@ -35,8 +35,8 @@
 		ASF.globals.forum = {{ forum|safe|json }};
 	{% endif %}
 
-	{% if req.session.authenticated %}
-		ASF.user = {{ req.session.User|safe|json_encode }}
+	{% if req.user %}
+		ASF.user = {{ req.user|safe|json_encode }}
 	{% endif %}
 </script>
 
@@ -164,7 +164,7 @@
 		</div>
 	</footer>
 
-	{% if !req.session.authenticated %}
+	{% if !req.user %}
 		<div class="modal fade" id="login-modal">
 			<div class="modal-dialog">
 				<div class="modal-content">
