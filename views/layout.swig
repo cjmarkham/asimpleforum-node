@@ -65,7 +65,7 @@
 
 				</div>
 				<div id="quick-search" role="search" class="col-sm-3 hidden-xs">
-					<form role="form" name="search-form" method="post" action="javascript:void(0)" class="form-horizontal">
+					<form data-event="submit" data-action="search" role="form" name="search-form" method="post" action="javascript:void(0)" class="form-horizontal">
 						<div class="form-group">
 							<input type="text" name="query" class="typeahead form-control" autocomplete="off" placeholder="Quick search" />
 							<button class="fa fa-search">&nbsp;</button>

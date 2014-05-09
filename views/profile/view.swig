@@ -9,8 +9,6 @@
 		{% if req.session.authenticated && req.session.User.id != user.id %}
 			ASF.profile.updateViews({{ user.id }});
 		{% endif %}
-
-		ASF.page.sidebar = {{ sails.config.sidebars[section]|raw|json_encode }};
 	});
 	</script>
 

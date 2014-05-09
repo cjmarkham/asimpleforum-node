@@ -113,6 +113,7 @@ module.exports = {
 				raw: raw,
 				content: content,
 				topic: topic.id,
+				forum: topic.forum,
 				author: req.session.User.id
 			}).exec(function (error, post) {
 				if (error) {

@@ -140,7 +140,7 @@ module.exports = {
 				content: content,
 				author: req.session.User.id,
 				topic: topic.id,
-				forum: forumId,
+				forum: topic.forum,
 				quoted: quoted
 			}).exec(function (error, post) {
 
