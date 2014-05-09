@@ -20,7 +20,7 @@
 							</p>
 							<div class="topic-info">
 								<a href="/user/{{ topic.author.username }}" class="user-link">
-									{{ opic.author.username }}
+									{{ topic.author.username }}
 								</a>
 								<span title="{{ topic.createdAt|date('c') }}" class="date">
 									{{ topic.createdAt|toDate }}
