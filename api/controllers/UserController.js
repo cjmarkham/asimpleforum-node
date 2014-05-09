@@ -136,7 +136,8 @@ module.exports = {
 			}, 400);
 		}
 
-		var path = './assets' + sails.config.board.avatarDir + '/' + req.session.User.username + '/avatar.png';
+		var dir = './assets' + sails.config.board.avatarDir + '/' + req.session.User.username;
+		var path = dir + '/avatar.png';
 
 		fs.readFile(req.files.avatar.path, function (error, data) {
 
@@ -146,18 +147,40 @@ module.exports = {
 				}, 500);
 			}
 
-			fs.writeFile(path, data, function (error) {
+			fs.exists(dir, function (exists) {
+				if (!exists) {
+					fs.mkdir(dir, 0777, function () {
+						fs.writeFile(path, data, function (error) {
 
-				if (error) {
-					return res.json({
-						error: res.__(error.summary)
-					}, 500);
+							if (error) {
+								return res.json({
+									error: res.__(error.summary)
+								}, 500);
+							}
+
+							return res.json({
+								error: false
+							}, 200);
+						});
+					});
+				} else {
+					
+					fs.writeFile(path, data, function (error) {
+
+						if (error) {
+							return res.json({
+								error: res.__(error.summary)
+							}, 500);
+						}
+
+						return res.json({
+							error: false
+						}, 200);
+					});
 				}
+			})
 
-				return res.json({
-					error: false
-				}, 200);
-			});
+			
 		});
 	},
 
