@@ -21,6 +21,12 @@ module.exports.routes = {
 		skipAssets: true
 	},
 
+	'get /search/:query': {
+		controller: 'SearchController',
+		action: 'get',
+		skipAssets: true
+	},
+
 	'post /login': {
 		controller: 'SessionController',
 		action: 'create'

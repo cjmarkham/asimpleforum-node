@@ -6,6 +6,16 @@ var ASF = {
 		forum: {}
 	},
 
+	search: function (node) {
+		var query = node.find('input[name="query"]').val();
+
+		node.find('input[name="query"]').val('');
+
+		ASF.page.url = '/search/' + query;
+		ASF.page.updateUrl = true;
+		ASF.page.load();
+	},	
+
 	settings: {
 		saveDOB: function (node) {
 			var dob = node.val();

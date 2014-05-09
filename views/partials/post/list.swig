@@ -25,7 +25,7 @@
 				<div class="post-info">
 					<div class="clearfix">
 						<div class="pull-left">
-							<span class="date" title="{{ post.createdAt }}">{{ post.createdAt|toDate }}</span> - <a href="javascript:void(0)" class="topic-name">{{ post.name }}</a>
+							<span class="date" title="{{ post.createdAt }}">{{ post.createdAt|toDate }}</span> - <a href="/{{ post.forum.name|toUrl }}/{{ post.topic.name|toUrl }}-{{ post.topic.id }}/#{{ post.id }}" class="topic-name">{{ post.name }}</a>
 						</div>
 						<div class="pull-right post-tools">
 							{% include "../post/tools.swig" %}
